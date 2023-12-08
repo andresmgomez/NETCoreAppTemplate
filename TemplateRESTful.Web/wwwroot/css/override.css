@@ -1,0 +1,46 @@
+﻿.text-primary {
+    color: rgb(64, 81, 137) !important;
+    font-size: 1.01rem;
+}
+
+.text-muted {
+    color: #878a99 !important;
+    font-size: 0.9rem;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    line-height: 25px;
+    font-weight: 500;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.81rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+    color: #212529;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.btn-success,
+.btn-success:active,
+.btn-success:disabled {
+    background-color: #0a94b3 !important;
+    border-color: #0a94b3 !important;
+    color: #fff !important;
+}
+
+    .btn-success:hover {
+        background-color: rgba(61, 81, 137, 0.9) !important;
+    }
+
+    .btn-success:active {
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+    }

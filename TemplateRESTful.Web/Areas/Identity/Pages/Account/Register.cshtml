@@ -1,0 +1,76 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register a new Account";
+    ViewData["Subtitle"] = "Sign up to get access to one of our services";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="wrapper-form">
+            <span class="form-logo">
+                <i class="zmdi zmdi-chart"></i>
+            </span>
+        </div>
+        <form class="main-form" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div class="card mt-4">
+                <div class="card-body p-4">
+                    <div class="text-center mt-2">
+                        <h5 class="text-primary">@ViewData["Title"]</h5>
+                        <p class="text-muted">@ViewData["Subtitle"]</p>
+                    </div>
+                    <div class="p-2 mt-4">
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control" asp-for="Input.FirstName" placeholder="First name" />
+                                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control" asp-for="Input.LastName" placeholder="Last name" />
+                                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" asp-for="Input.Email" placeholder="Email" />
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" asp-for="Input.Password" placeholder="Password" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" asp-for="Input.ConfirmPassword" placeholder="Confirm Password" />
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 mt-4">
+                            <button class="btn btn-success w-100" type="submit">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-links">
+                <div class="text-center">
+                    <a class="link" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl"> Already have an account? </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

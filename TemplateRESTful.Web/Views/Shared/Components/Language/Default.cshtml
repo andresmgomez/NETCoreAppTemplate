@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocalizeOptions
+
+@{
+    var selectLanguage = Context.Features.Get<IRequestCultureFeature>();
+    var languagesList = LocalizeOptions.Value.SupportedUICultures.Select(
+        language => new SelectListItem
+                {
+                    Value = language.Name,
+                    Text = Localizer.GetString(language.NativeName)
+                }
+    ).ToList();
+}
+
+<div title="@Localizer["Select a lanaguge"]">
+    <a class="nav-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="d-inline-block text-gray-600 small mr-2">
+            @if (selectLanguage != null)
+            {
+                if (selectLanguage.RequestCulture.UICulture.Name == "en")
+                {
+                    <i class="flag-icon flag-icon-us"></i>
+                }
+                else if (selectLanguage.RequestCulture.UICulture.Name == "it")
+                {
+                    <i class="flag-icon flag-icon-it"></i>
+                }
+            }
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+        @foreach (var language in languagesList)
+        {
+            <form class="form-horiozontal" role="form" method="post">
+                <button type="submit" class="dropdown-item">
+                    @if (language.Value == "en")
+                    {
+                        <i class="flag-icon flag-icon-us"></i>
+                    } 
+                    else if (language.Value == "it")
+                    {
+                        <i class="flag-icon flag-icon-it"></i>
+                    }
+
+                    @language.Text
+                </button>
+            </form>
+        }
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using TemplateRESTful.Web.Resources
+@inject IHtmlLocalizer<SharedResource> localizer;
+
+<aside class="main-sidebar sidebar-menu" style="height: 100vh;">
+    <div class="sidebar-menu--size-box">
+        <a href="/" class="sidebar-logo sidebar-logo--color-light">
+            <span class="sidebar-logo--size-large">
+                <i class="zmdi zmdi-chart"></i>
+                Template RESTful
+            </span>
+        </a>
+    </div>
+
+   <div class="sidebar">
+       <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <li class="nav-header text-light">@localizer["Users"]
+                        <span class="badge badge-danger">@localizer["New"]</span>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a asp-area="Admin" class="nav-link">
+                            <i class="nav-icon fas fa-users text-light"></i>
+                            <p class="text-light">
+                                @localizer["User Accounts"]
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item ml-3">
+                                <a asp-area="Admin" asp-controller="Accounts" class="nav-link text-light">
+                                    -
+                                    <p>@localizer["Online Accounts"]</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+       </nav>
+   </div>
+</aside>

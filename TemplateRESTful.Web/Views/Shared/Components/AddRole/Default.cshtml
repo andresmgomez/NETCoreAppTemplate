@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using TemplateRESTful.Web.Resources
+@inject IHtmlLocalizer<SharedResource> localizer
+
+<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <form class="form-inline" asp-area="Admin" asp-controller="Roles" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roleModal">
+                        Create a non existing User role
+                    </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-window-close"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body"> 
+                    <form asp-action="Create" method="post">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="roleName" class="col-form-label">
+                                        Role Name
+                                    </label>
+                                    <input type="text" class="form-control-outline text-gray-dark" id="roleName" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="button" data-dismiss="modal">
+                        @localizer["Cancel"]
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        @localizer["Add Role"]
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

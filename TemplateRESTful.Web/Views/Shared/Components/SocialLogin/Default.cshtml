@@ -1,0 +1,16 @@
+﻿
+@using TemplateRESTful.Domain.Models.Account
+@inject SignInManager<ApplicationUser> SignInManager
+
+<div class="d-flex justify-content-center">
+    @{
+        var providers = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+        @foreach (var provider in providers)
+        {
+            <form asp-page="/Account/ExternalLogin" method="post">
+                <input type="submit" value="@provider.Name" name="provider" class="google-login-btn" />
+            </form>
+        }
+    }
+</div>

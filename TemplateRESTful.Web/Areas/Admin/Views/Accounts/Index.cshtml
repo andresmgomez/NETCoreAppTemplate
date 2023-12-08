@@ -1,0 +1,86 @@
+﻿@model IEnumerable<AccountViewModel>
+@using TemplateRESTful.Web.Views.Shared.Components.AddRole
+
+<div class="card">
+    <div class="card-body table-responsive">
+
+        <table class="table table-striped" id="userAccounts">
+            <thead>
+                <tr>
+                    <th>@localizer["First Name"]</th>
+                    <th>@localizer["Last Name"]</th>
+                    <th>@localizer["Registered Email"]</th>
+                    <th>@localizer["Email Status"]</th>
+                    <th>@localizer["Account Status"]</th>
+                    <th>@localizer["Account Roles"]</th>
+                    <th>@localizer["Admin Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            @user.FirstName
+                        </td>
+                        <td>
+                            @user.LastName
+                        </td>
+                        <td>
+                            <a>@user.Email</a>
+                        </td>
+                        <td>
+                            <small>
+                                @if (user.EmailConfirmed)
+                                {
+                                    <span class="badge-pill badge-success">@localizer["Confirmed"]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-pill badge-danger">@localizer["Not Confirmed"]</span>
+                                }
+                            </small>
+                        </td>
+                        <td>
+                            @if (user.IsActive)
+                            {
+                                <span class="badge badge-success">@localizer["Active"]</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">@localizer["Inactive"]</span>
+                            }
+                        </td>
+                        <td>
+                            <span><strong>@string.Join(", ", user.Roles)</strong></span>
+                        </td>
+                        <td>
+                            <div class="nav-item dropdown no-arrow">
+                                <a class="nav-link" id="userPermission" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userPermisson">
+                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#roleModal">
+                                        <span class="text-gray-600">
+                                            <i class="fas fa-wrench fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Add Permission
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@(await Component.InvokeAsync<AddRoleViewComponent>());
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#userAccounts').DataTable();
+    });
+</script>

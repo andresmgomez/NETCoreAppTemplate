@@ -1,0 +1,67 @@
+﻿
+/**********************
+ Dashboard Navbar
+***********************/
+
+.sidebar-menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    margin-top: 0;
+    background: #405189;
+    border-left: 1px solid #405189;
+    -webkit-box-shadow: 0 2px 4px rgba(15,34,58,0.12);
+    box-shadow: 0 2px 4px rgba(15,34,58,0.12);
+    -webkit-transition: all 0.1s ease-out;
+    transition: all 0.1s ease-out;
+    z-index: 999;
+}
+
+.sidebar-menu--size-box {
+    padding: 0 1.3rem;
+    text-align: center;
+    -webkit-transition: all 0.1s ease-out;
+    transition: all 0.1s ease-out;
+}
+
+
+.sidebar-logo {
+    line-height: 70px;
+    color: #fff;
+}
+
+.sidebar-logo > i {
+    font-size: 0.8em;
+}
+
+.navbar-menu--title {
+    letter-spacing: 0.05em;
+    cursor: default;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #838fb9;
+    font-weight: 600;
+}
+
+.navbar-menu--title span {
+    padding: 12px 20px;
+    display: inline-block;
+}
+
+.navbar-menu--link {
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0.625rem 1.5rem;
+    color: #abb9e8;
+    font-size: 1rem;
+}
+
+.navbar-menu--link i {
+    display: inline-block;
+    min-width: 1.75rem;
+    font-size: 18px;
+    line-height: inherit;
+}
+

@@ -1,0 +1,13 @@
+﻿
+@media (max-width: 767.98px) {
+    .sidebar-menu--size-box {
+        display: none;
+    }
+    .sidebar-logo span.sidebar-logo--size-large {
+        display: none;
+    }
+
+    .sidebar-logo span.sidebar-logo--size-small {
+        display: inline-block;
+    }
+}

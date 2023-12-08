@@ -1,0 +1,66 @@
+@model TemplateRESTful.Web.Shared.ViewModels.NotyfNotificationVM;
+@using TemplateRESTful.Domain.Enums.Features;
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="~/lib/notyf/dist/css/notyf.min.css" />
+<script src="~/lib/notyf/dist/js/notyf.min.js"></script>
+
+<script>
+    const notyf = new Notyf(@Html.Raw(Model.Configuration));
+</script>
+
+@{
+    @if (Model.NotyfNotifications != null)
+    {
+        foreach (var notification in Model.NotyfNotifications)
+        {
+            switch (notification.Type)
+            {
+                case NotificationType.Success:
+                    <script>
+                        $(document).ready(function () { toastNotifySuccess('@Html.Raw(notification.Message)', '@Html.Raw(notification.Duration)'); });
+                    </script>
+                break;
+
+                case NotificationType.Error:
+                    <script>
+                        $(document).ready(function () { toastNotifyError('@Html.Raw(notification.Message)', '@Html.Raw(notification.Duration)'); });
+                    </script>
+                    break;
+
+                case NotificationType.Warning:
+                    <script>
+                        $(document).ready(function () { toastNotifyWarning('@Html.Raw(notification.Message)', '@Html.Raw(notification.Duration)'); });
+                    </script>
+                    break;
+                case NotificationType.Information:
+                    <script>
+                        $(document).ready(function () { toastNotifyInformation('@Html.Raw(notification.Message)', '@Html.Raw(notification.Duration)'); });
+                    </script>
+                    break;
+            }
+        }
+    }
+}
+
+<script type="text/javascript">
+
+    function toastNotifySuccess(message, duration) {
+        if (duration) { notyf.success({ message: message, duration: duration }); }
+        else { notyf.success({ message: message }); }
+    }
+    function toastNotifyError(message, duration) {
+        if (duration) { notyf.error({ message: message, duration: duration }); }
+        else { notyf.error({ message: message }); }
+    }
+    function toastNotifyWarning(message, duration) {
+        if (duration) { notyf.open({ type: 'warning', message: message, duration: duration }); }
+        else { notyf.open({ type: 'warning', message: message }); }
+
+    }
+    function toastNotifyInformation(message, duration) {
+        if (duration) { notyf.open({ type: 'info', message: message, duration: duration }); }
+        else { notyf.open({ type: 'info', message: message }); }
+
+    }
+</script>

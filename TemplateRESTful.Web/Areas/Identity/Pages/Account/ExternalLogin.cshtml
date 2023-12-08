@@ -1,0 +1,40 @@
+﻿@page
+@model ExternalLoginModel
+@{
+    ViewData["Title"] = "Authenticate with Social Account";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="wrapper-form">
+            <span class="form-logo">
+                <i class="zmdi zmdi-chart"></i>
+            </span>
+        </div>
+        <form class="main-form" method="post">
+            <div class="card mt-4">
+                <div class="card-body p-4">
+                    <div class="text-center mt-2">
+                        <h5 class="text-primary">@ViewData["Title"]</h5>
+                    </div>
+                    <div class="p-2 mt-4">
+                        <div class="mb-3">
+                            <div class="message-wrapper">
+                                <p class="text-muted">We have detected the following email
+                                    is associated to your <strong>@ViewData["Provider"]</strong> account.
+                                </p>                             
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" asp-for="Input.Email" placeholder="Email Account" readonly/>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="mb-2 mt-4">
+                                <button class="btn btn-success w-100" type="submit">Sign in</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
