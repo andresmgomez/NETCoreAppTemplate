@@ -29,14 +29,14 @@ A template to build .NET applications using a scalable Onion Architecture that c
   <summary>Open the Template in Visual Studio</summary>
 
   <div align="left">
-     <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/open-project.png" alt="Open the project in Visual Studio" width="400px" />
+     <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/open-project.png" alt="Open the project in Visual Studio" width="500px" />
   </div>
 </details>
 
 <details>
   <summary>Configure local path for Database</summary>
 
-1. Expand the <em>TemplateRESTful.API</em> and <em>TemplateRESTful.Web</em> folders
+Expand the <em>TemplateRESTful.API</em> and <em>TemplateRESTful.Web</em> folders
 
   <div align="left">
    <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/expand-projects.png" alt="Expand the Api or Web project" width="400px" />
@@ -45,7 +45,7 @@ A template to build .NET applications using a scalable Onion Architecture that c
 2. Open the <em>appsettings.json</em> file
 
  <div align="left">
-     <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/db-project.png" alt="Configure the path for database" width="400px" />
+     <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/db-project.png" alt="Configure the path for database" width="500px" />
 </div>
 
 3. Replace the following database settings
@@ -95,7 +95,7 @@ Right click on the <em>project solution</em>, and select <strong><em>Set as a St
 Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then click on **IIS Express**
 
   <div align="left">
-    <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/run-project.png" alt="Run and build the project" width="400px" />
+    <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/run-project.png" alt="Run and build the project" width="500px" />
   </div>
 
 </details>
