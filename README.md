@@ -8,6 +8,7 @@ A template to build .NET applications using a scalable Onion Architecture that c
 
 - [Project Requirements](#project-requirements)
 - [Getting Started](#getting-started)
+- [Core Services](#core-services)
 - [Current Features](#current-features)
 - [API Usage](#api-usage)
 
@@ -97,6 +98,53 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
   <div align="left">
     <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/run-project.png" alt="Run and build the project" width="500px" />
   </div>
+
+</details>
+
+## Core Services
+
+<details>
+  <summary>Generate a passcode for your App</summary>
+
+1. Enable [2-step verification](https://support.google.com/accounts/answer/10956730?hl=en) in your gmail settings
+
+2. After clicking on <em>App Password Options</em>, set a password and click on **Generate button** to get the sign in passcode
+
+3. Inside the **appsettings.json** file, replace email settings
+
+```json
+  "EmailConfiguration": {
+    "From": "business.email@gmail.com",
+    "SmtpServer": "smtp.gmail.com",
+    "Port": 465,
+    "Username": "business.email@gmail.com",
+    "Password": "xxxx xxxx xxxx xxxx"
+  },
+```
+
+[!CAUTION]
+
+> Google has disabled support for third-party apps using just credentials after May 30 2022. This is the way to authorize your app
+
+</details>
+
+<details>
+  <summary>Set Google authentication in NET Core</summary>
+
+1. Create a new **app** in Google Cloud Platform, and install the <strong>External Identity Provider</strong>NuGet package
+
+2. Inside the **appsettings.json** file, replace auth settings
+
+```json
+"Authentication": {
+    "Google": {
+      "ClientId": "0000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
+      "ClientSecret": "GXXXXX-XXXX_XXXXXXXXXXXXXXXXX_GXXXX"
+    }
+  },
+```
+
+Click for [step by step](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-5.0) for instructions, how to generate your <strong><em>ClientId and ClientSecret</em></strong>
 
 </details>
 
