@@ -11,7 +11,7 @@ namespace TemplateRESTful.API.Configuration
             {
                 options.SwaggerEndpoint(
                     "/swagger/v1/swagger.json",
-                    ".NET RESTful Web API v1"
+                    "v1.0"
                 );
                 options.RoutePrefix = "swagger";
                 options.DisplayRequestDuration();
