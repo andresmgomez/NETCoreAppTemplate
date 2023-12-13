@@ -5,18 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 
-using TemplateRESTful.Domain.Entities.DTOs.Account;
 using TemplateRESTful.Domain.Models.Users;
 using TemplateRESTful.Domain.Models.Account;
 using TemplateRESTful.Domain.Enums.Account;
-using TemplateRESTful.Infrastructure.Identity;
-using TemplateRESTful.Infrastructure.Server;
-using TemplateRESTful.Infrastructure.Utilities;
-using TemplateRESTful.Service.Common.Identity;
-using AutoMapper;
-using TemplateRESTful.Service.Features.Notifications;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace TemplateRESTful.Service.Common.Account
 {

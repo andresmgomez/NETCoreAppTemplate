@@ -34,7 +34,7 @@ namespace TemplateRESTful.Persistence.Seeding
                 LastName = "Williams",
                 UserName = "hwilliam29",
                 Email = "howard.will@domain.com",
-                EmailConfirmed = true,
+                EmailConfirmed = false,
                 PhoneNumberConfirmed = false,
                 IsActive = false
             };

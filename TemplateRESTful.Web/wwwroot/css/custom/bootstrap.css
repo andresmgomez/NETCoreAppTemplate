@@ -37,10 +37,10 @@
     color: #fff !important;
 }
 
-    .btn-success:hover {
-        background-color: rgba(61, 81, 137, 0.9) !important;
-    }
+.btn-success:hover {
+    background-color: rgba(61, 81, 137, 0.9) !important;
+}
 
-    .btn-success:active {
-        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
-    }
+.btn-success:active {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+}

@@ -5,11 +5,12 @@
     right: 0;
     left: 0;
     width: 100%;
-    height: 950px;
+    height: 120%;
+    overflow: hidden;
 }
 
 .bg-page {
-    background-image: url("../img/bg-form.jpg");
+    background-image: url(../img/bg-form.jpg) !important;
     background-position: center;
     background-size: cover;
 }

@@ -40,7 +40,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Dashboard\Data\" />
     <Folder Include="Areas\Dashboard\Models\" />
-    <Folder Include="wwwroot\fonts\" />
+    <Folder Include="wwwroot\css\fonts\" />
     <Folder Include="wwwroot\lib\fontawesome\css\" />
   </ItemGroup>
 </Project>

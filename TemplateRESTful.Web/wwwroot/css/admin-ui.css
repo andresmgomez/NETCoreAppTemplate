@@ -6701,6 +6701,13 @@ a.disabled.mailbox-attachment-close {
     line-height: 1.5;
 }
 
+.modal-close {
+    position: relative;
+    flex: 0 1 auto;
+    font-size: 1.2rem !important;
+    padding: 0 5px 0 5px !important;
+}
+
 .modal-body {
     position: relative;
     -ms-flex: 1 1 auto;
