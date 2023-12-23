@@ -2,6 +2,13 @@
 
 A template to build .NET applications using a scalable Onion Architecture that connects to multiple SQL databases
 
+<div align="left">
+   <video width="640" height="327" autoplay="autoplay">
+  <source src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/preview.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video> 
+</div>
+
 > This project uses .NET Core Identity API and includes a Web UI and a Swagger API interface.
 
 ## Table of Contents
@@ -11,6 +18,7 @@ A template to build .NET applications using a scalable Onion Architecture that c
 - [Core Services](#core-services)
 - [Current Features](#current-features)
 - [API Usage](#api-usage)
+- [Open License](#open-license)
 
 ## Project Requirements
 
@@ -238,3 +246,7 @@ How to use **Accounts** API endpoints
 ![TemplateRESTfulResetGET](./screenshots/post-reset.png)
 
 </details>
+
+## Open License
+
+Distributed under the MIT License. See `LICENSE` for more information.
