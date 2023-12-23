@@ -2,25 +2,29 @@
 
 A template to build .NET applications using a scalable Onion Architecture that connects to multiple SQL databases
 
-<div align="left">
-   <video width="640" height="327" autoplay="autoplay">
-  <source src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/preview.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video> 
-</div>
-
 > This project uses .NET Core Identity API and includes a Web UI and a Swagger API interface.
 
 ## Table of Contents
 
-- [Project Requirements](#project-requirements)
+- [Preview Screenshots](#preview-screenshots)
+- [Template Requirements](#template-requirements)
 - [Getting Started](#getting-started)
 - [Core Services](#core-services)
 - [Current Features](#current-features)
 - [API Usage](#api-usage)
 - [Open License](#open-license)
 
-## Project Requirements
+## Preview Screenshots
+
+|                                          Registration Page                                          |                                          Confirm Registration Page                                          |                                            Login Page                                            |
+| :-------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register-confirm.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/login.gif" /> |
+
+|                                            Reset Password                                             |                                            Change Password                                             |                                            Lockout Page                                            |
+| :---------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/reset-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/change-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/lockout.gif" /> |
+
+## Template Requirements
 
 - [Visual Studio 2019 or later](https://visualstudio.microsoft.com/downloads/)
 
