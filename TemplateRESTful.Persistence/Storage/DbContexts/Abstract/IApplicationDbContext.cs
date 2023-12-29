@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-using TemplateRESTful.Domain.Entities.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 
 namespace TemplateRESTful.Persistence.Storage.DbContexts
 {
@@ -16,7 +16,7 @@ namespace TemplateRESTful.Persistence.Storage.DbContexts
         IDbConnection Connection { get; }
         bool HasChanges { get; }
 
-        DbSet<UserAccount> UserAccounts { get; set; }
+        DbSet<ApplicationUser> UserAccounts { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

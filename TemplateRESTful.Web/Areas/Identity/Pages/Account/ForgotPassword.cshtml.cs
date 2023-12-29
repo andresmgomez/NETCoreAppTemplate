@@ -4,17 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using TemplateRESTful.Domain.Models.Account;
 using Microsoft.Extensions.Logging;
-using TemplateRESTful.Web.Implementation;
+
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Infrastructure.Server.Requests;
 using TemplateRESTful.Infrastructure.Server.Requests.IRepository;
+using TemplateRESTful.Web.Implementation;
 
 namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
 {

@@ -10,7 +10,7 @@ namespace TemplateRESTful.Infrastructure.Server
     {
         public T ApiResponse { get; set; }
 
-        public static new ServerResponse<T> FailedMessage()
+        public new static ServerResponse<T> FailedMessage()
         {
             return new ServerResponse<T>
             {
@@ -18,7 +18,7 @@ namespace TemplateRESTful.Infrastructure.Server
             };
         }
 
-        public static new ServerResponse<T> FailedMessage(string message)
+        public new static ServerResponse<T> FailedMessage(string message)
         {
             return new ServerResponse<T>
             {
@@ -27,7 +27,7 @@ namespace TemplateRESTful.Infrastructure.Server
             };
         }
 
-        public static new ServerResponse<T> SuccessMessage()
+        public new static ServerResponse<T> SuccessMessage()
         {
             return new ServerResponse<T>
             {
@@ -35,7 +35,7 @@ namespace TemplateRESTful.Infrastructure.Server
             };
         }
 
-        public static new ServerResponse<T> SuccessMessage(string message)
+        public new static ServerResponse<T> SuccessMessage(string message)
         {
             return new ServerResponse<T>
             {

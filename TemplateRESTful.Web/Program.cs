@@ -9,8 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using TemplateRESTful.API.Middlewares;
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 
 namespace TemplateRESTful.Web
 {
@@ -49,7 +48,6 @@ namespace TemplateRESTful.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

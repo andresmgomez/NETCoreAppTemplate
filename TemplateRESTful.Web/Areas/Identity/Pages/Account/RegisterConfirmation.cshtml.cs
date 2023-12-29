@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Service.Common.Account;
 using TemplateRESTful.Web.Implementation;
 

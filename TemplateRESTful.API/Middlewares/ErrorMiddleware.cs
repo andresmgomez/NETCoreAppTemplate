@@ -13,10 +13,12 @@ namespace TemplateRESTful.API.Middlewares
     public class ErrorMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IServerLogger _logManager;
 
-        public ErrorMiddleware(RequestDelegate next)
+        public ErrorMiddleware(RequestDelegate next, IServerLogger logManager)
         {
             _next = next;
+            _logManager = logManager;
         }
 
         public async Task Invoke(HttpContext context)
@@ -34,16 +36,16 @@ namespace TemplateRESTful.API.Middlewares
                 switch (error)
                 {
                     case InvalidException e:
-                        // custom response error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest; 
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        // _logManager.WarningLog(error.Message);
                         break;
                     case KeyNotFoundException e:
-                        // not found error
                         response.StatusCode = (int)HttpStatusCode.NotFound;
+                        // _logManager.InformationLog(error.Message);
                         break;
                     default:
-                        // unhandled error
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        _logManager.CriticalLog(error.Message);
                         break;
                 }
 

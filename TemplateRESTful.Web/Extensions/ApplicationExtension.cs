@@ -8,8 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using TemplateRESTful.Infrastructure.Mapping;
-using TemplateRESTful.Persistence.Data.Actions;
-using TemplateRESTful.Service.Common.Account;
 
 namespace TemplateRESTful.Web.Extensions
 {
@@ -17,7 +15,7 @@ namespace TemplateRESTful.Web.Extensions
     {
         public static void AddApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCoreRepostories(configuration);
+            services.AddApplicationContext(configuration);
             services.AddSocialAuthentication(configuration);
             services.AddTwoFactorAuthentication(configuration);
         }
@@ -39,14 +37,12 @@ namespace TemplateRESTful.Web.Extensions
                 options.AddPolicy("TwoFactorEnabled", actions => actions.RequireClaim("amr", "mfa")));    
         }
 
-        private static void AddCoreRepostories(this IServiceCollection services, IConfiguration configuration)
+        private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddDistributedMemoryCache();
             services.TryAddSingleton<HttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IMappingViewer, MappingViewer>();
-            services.AddTransient<IAuditActions, AuditActions>();
         }
     }
 }

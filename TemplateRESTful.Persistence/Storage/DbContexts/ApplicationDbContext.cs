@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-using TemplateRESTful.Domain.Entities.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Domain.Models.Features;
 
 namespace TemplateRESTful.Persistence.Storage.DbContexts
@@ -19,7 +19,7 @@ namespace TemplateRESTful.Persistence.Storage.DbContexts
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public DbSet<UserAccount> UserAccounts { get; set; }
+        public DbSet<ApplicationUser> UserAccounts { get; set; }
         public IDbConnection Connection => Database.GetDbConnection();
         public bool HasChanges => ChangeTracker.HasChanges();
 

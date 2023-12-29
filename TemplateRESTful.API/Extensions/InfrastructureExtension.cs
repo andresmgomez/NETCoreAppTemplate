@@ -2,24 +2,23 @@
 using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 
-using TemplateRESTful.Infrastructure.Identity;
+using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Persistence.Storage;
 using TemplateRESTful.Service.Common.Account;
+using TemplateRESTful.Domain.Models.Entities;
+using TemplateRESTful.Infrastructure.Identity;
 using TemplateRESTful.Service.Common.Identity;
-using TemplateRESTful.Domain.Models.Account;
 
 namespace TemplateRESTful.API.Extensions
 {
     public static class InfrastructureExtension
     {
-        public static void AddInfrastructure(
+        public static void AddInfrastructureLayer(
             this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentityInfrastructure(configuration);
@@ -48,7 +47,30 @@ namespace TemplateRESTful.API.Extensions
 
             #region Identity Service
             services.AddScoped<IAuthorizeService, AuthorizeService>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
             #endregion
+
+            services.Configure<SecureToken>(configuration.GetSection("JWTSettings"));
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            .AddJwtBearer(settings =>
+            {
+                settings.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["JWTSettings:Issuer"],
+                    ValidAudience = configuration["JWTSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]))
+                };
+            });
+
         }
     }
 }

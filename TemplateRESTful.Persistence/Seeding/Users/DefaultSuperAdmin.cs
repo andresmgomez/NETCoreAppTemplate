@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 using TemplateRESTful.Domain.Enums.Account;
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 
 namespace TemplateRESTful.Persistence.Seeding
 {

@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-using TemplateRESTful.Domain.Models.Users;
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.DTOs;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Web.Implementation;
 using TemplateRESTful.Infrastructure.Server.Requests.IRepository;
 using TemplateRESTful.Infrastructure.Server.Requests;
 using TemplateRESTful.Service.Common.Account;
+using MediatR;
+using TemplateRESTful.Persistence.Data.Actions;
 
 namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
 {
@@ -21,25 +23,24 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IAuthorizeService _manageAccount;
+        private readonly IAuthorizeService _authorize;
         private readonly IEmailRequest _sendEmailRequest;
-        private readonly ILogger<LoginModel> _logger;
-
+        private readonly IMediator _mediator;
+        
         public LoginModel(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IAuthorizeService manageAccount,
-            ILogger<LoginModel> logger,
-            IEmailRequest sendEmailRequest)
+            IAuthorizeService authorize,
+            IEmailRequest sendEmailRequest, IMediator mediator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _manageAccount = manageAccount;
+            _authorize = authorize;
             _sendEmailRequest = sendEmailRequest;
-            _logger = logger;
+            _mediator = mediator;
         }
 
         [BindProperty]
-        public LoginUser Input { get; set; }
+        public LoginUserDto Input { get; set; }
         public string ReturnUrl { get; set; }
 
         [TempData]
@@ -70,7 +71,7 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
                 if (user != null && admin)
                 {
                     user.TwoFactorEnabled = true;
-                    result = await _manageAccount.LoginAccountAsync(Input, allowLockout: false);
+                    result = await _authorize.LoginUserAsync(Input, allowLockout: false);
             
                     if (result.RequiresTwoFactor) 
                     {
@@ -94,12 +95,14 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
 
                 if (user != null)
                 {
-                    result = await _manageAccount.LoginAccountAsync(Input, allowLockout: true);
-
+                    result = await _authorize.LoginUserAsync(Input, allowLockout: true);
+                    
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation($"{emailAccount} has logged in successfully");
-                        _notificationService.SuccessMessage($"Hello User, you are logged in as {emailAccount}");
+                        
+                        user.IsActive = true;
+                        await _mediator.Send(new TrackActivityActions() { userId = user.Id, Action = "Login Success" }); 
+                        // _logger.LogInformation($"{emailAccount} has logged in successfully");
                         return LocalRedirect(returnUrl);
 
                     }
@@ -109,11 +112,14 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
                     }
 
                     ApplicationUser guestUser = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    
                     int failedAttempts = await _signInManager.UserManager.GetAccessFailedCountAsync(guestUser);
                     int totalAttempts = _signInManager.Options.Lockout.MaxFailedAccessAttempts;
                     string alertMessage = $"Login has failed. Remaining attempts {failedAttempts} of {totalAttempts}";
 
                     ModelState.AddModelError(string.Empty, alertMessage);
+                    await _mediator.Send(new TrackActivityActions() { userId = user.Id, Action = "Login Failed" });
+                    
                     _notificationService.ErrorMessage("Invalid Login attempt! Check your email or password and try again");
                 }
                 else
@@ -122,7 +128,6 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

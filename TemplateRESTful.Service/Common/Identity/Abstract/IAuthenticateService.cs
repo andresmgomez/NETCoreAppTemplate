@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 
 namespace TemplateRESTful.Service.Common.Identity
 {
-    public interface IAuthenticateService
-    {
-        Task<JwtSecurityToken> GenerateSecureToken(ApplicationUser userToken, string ipAddress);
+    public interface IAuthenticateService {
+        Task<JwtSecurityToken> SetAuthTokenAsync(ApplicationUser userAccount);
     }
 }

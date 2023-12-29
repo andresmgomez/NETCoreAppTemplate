@@ -10,9 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using TemplateRESTful.Web.Extensions;
-using TemplateRESTful.Domain.Notifications.Toast;
-using TemplateRESTful.Domain.Notifications.Notyf;
 using TemplateRESTful.Web.Configuration;
+using TemplateRESTful.Persistence.Extensions;
+using TemplateRESTful.Persistence.Data.Contexts;
+using TemplateRESTful.Service.Extension;
 
 namespace TemplateRESTful.Web
 {
@@ -28,21 +29,22 @@ namespace TemplateRESTful.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddNuGetPackages();
+            services.AddPersistencePatterns();
             services.AddInfrastructureLayer(_configuration);
             services.AddPersistenceLayer(_configuration);
+            services.AddServiceLayer(_configuration);
 
-            services.AddMultilingualLanguages();
             services.AddControllersWithViews();
+            
             services.AddApplicationLayer(_configuration);
-  
             services.AddNotyfNotification(settings =>
             {
                 settings.DurationInSeconds = 5;
                 settings.IsDimissible = true;
                 settings.HasRippleEffect = true;
             });
+
+            services.AddMultilingualLanguages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using TemplateRESTful.Domain.Models.Users;
-using TemplateRESTful.Domain.Models.Account;
+
+using TemplateRESTful.Domain.Models.DTOs;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Web.Implementation;
 
 namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
@@ -30,7 +31,7 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
         }
 
         [BindProperty]
-        public ForgotUser Input { get; set; }
+        public ForgotUserDto Input { get; set; }
 
         [TempData]
         public string ErrorMessage { get; set; }
@@ -42,7 +43,7 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
                 return BadRequest("A code must be supplied for password reset.");
             }
 
-            Input = new ForgotUser
+            Input = new ForgotUserDto
             {
                 Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
                 Email = email
@@ -52,7 +53,7 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
             
         }
 
-        public async Task<IActionResult> OnPostAsync(ForgotUser accountUser)
+        public async Task<IActionResult> OnPostAsync(ForgotUserDto accountUser)
         {
             if (ModelState.IsValid)
             {
