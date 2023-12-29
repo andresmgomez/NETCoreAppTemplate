@@ -5,7 +5,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MediatR" Version="9.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" NoWarn="NU1605" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" NoWarn="NU1605" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
@@ -19,13 +18,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
+		<ProjectReference Include="..\TemplateRESTful.Persistence\TemplateRESTful.Persistence.csproj" />
+		<ProjectReference Include="..\TemplateRESTful.Service\TemplateRESTful.Service.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TemplateRESTful.Persistence\TemplateRESTful.Persistence.csproj" />
-		<ProjectReference Include="..\TemplateRESTful.Service\TemplateRESTful.Service.csproj" />
+	  <Folder Include="Debugging\" />
 	</ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Service.Common.Account;
 
 namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
@@ -14,13 +14,13 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IAuthorizeService _manageAccount;
+        private readonly IAuthorizeService _authorize;
 
         public ConfirmEmailModel(UserManager<ApplicationUser> userManager,
-            IAuthorizeService manageAccount)
+            IAuthorizeService authorize)
         {
             _userManager = userManager;
-            _manageAccount = manageAccount;
+            _authorize = authorize;
         }
 
         [TempData]
@@ -43,7 +43,7 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
                 return NotFound($"Unable to find user account with given {userId}");
             }
 
-            var result = await _manageAccount.ConfirmAccountAsync(user, code);                
+            var result = await _authorize.ConfirmUserAsync(user, code);                
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
 
             return Page();

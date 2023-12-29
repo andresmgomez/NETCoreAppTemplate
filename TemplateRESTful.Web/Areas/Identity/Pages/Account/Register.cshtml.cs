@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using TemplateRESTful.Domain.Models.Users;
-using TemplateRESTful.Domain.Models.Account;
-using TemplateRESTful.Web.Implementation;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Service.Common.Account;
+using TemplateRESTful.Web.Implementation;
 
 namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
 {
@@ -20,23 +21,23 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IAuthorizeService _manageAccount;
+        private readonly IAuthorizeService _authorize;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IAuthorizeService manageAccount,
+            IAuthorizeService authorize,
             ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _manageAccount = manageAccount;
+            _authorize = authorize;
             _logger = logger;
         }
 
         [BindProperty]
-        public RegisterUser Input { get; set; }
+        public RegisterUserDto Input { get; set; }
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
@@ -57,7 +58,7 @@ namespace TemplateRESTful.Web.Areas.Identity.Pages.Account
 
                 if (account == null)
                 {
-                    var result = await _manageAccount.RegisterAccountAsync(Input);
+                    var result = await _authorize.RegisterUserAsync(Input);
 
                     if (result.Succeeded)
                     {

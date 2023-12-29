@@ -21,8 +21,9 @@ namespace TemplateRESTful.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInfrastructure(_configuration);
-            services.AddEssentials();
+            services.AddInfrastructureLayer(_configuration);
+            services.AddUserInterface();
+            services.AddEssentialServices();
             services.AddControllers();
 
         }
@@ -38,6 +39,7 @@ namespace TemplateRESTful.API
             app.UseMiddleware<ErrorMiddleware>();
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

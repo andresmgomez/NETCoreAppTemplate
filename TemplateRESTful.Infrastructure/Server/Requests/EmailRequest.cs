@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using MailKit.Net.Smtp;
 using MimeKit;
 
-using TemplateRESTful.Domain.Entities.DTOs.Settings;
+using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Infrastructure.Server.Requests.IRepository;
 
 namespace TemplateRESTful.Infrastructure.Server.Requests

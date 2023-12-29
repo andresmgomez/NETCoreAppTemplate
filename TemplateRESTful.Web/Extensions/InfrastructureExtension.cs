@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using TemplateRESTful.Domain.Entities.DTOs.Settings;
-using TemplateRESTful.Domain.Models.Account;
+
+using TemplateRESTful.Domain.Models.DTOs;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Infrastructure.Server.Requests;
 using TemplateRESTful.Infrastructure.Server.Requests.IRepository;
 using TemplateRESTful.Persistence.Storage;
 using TemplateRESTful.Persistence.Storage.DbContexts;
-using TemplateRESTful.Service.Common.Account;
 
 namespace TemplateRESTful.Web.Extensions
 {
@@ -20,14 +20,13 @@ namespace TemplateRESTful.Web.Extensions
         public static void AddInfrastructureLayer(
             this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCoreRepositories(configuration);
             services.AddPersistenceContexts(configuration);
             services.AddAuthenticationScheme(configuration);
+            services.AddCoreInfrastructure(configuration);
         }
 
-        private static void AddCoreRepositories(this IServiceCollection services, IConfiguration configuration)
+        private static void AddCoreInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IAuthorizeService, AuthorizeService>();
             services.Configure<EmailSettingsDto>(configuration.GetSection("EmailConfiguration"));
             services.AddScoped<IEmailRequest, EmailRequest>();
         }

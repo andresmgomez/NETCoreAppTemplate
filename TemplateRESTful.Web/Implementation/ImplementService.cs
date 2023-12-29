@@ -14,12 +14,8 @@ namespace TemplateRESTful.Web.Implementation
 {
     public class ImplementService<T> : PageModel where T : class
     {
-        private IMediator _mediator;
         private ILogger<T> _logger;
         private INotyfNotificationService notificationService;
-
-        protected IMediator Mediator => _mediator ??=
-            HttpContext.RequestServices.GetService<IMediator>();
 
         protected ILogger<T> Logger => _logger ??=
             HttpContext.RequestServices.GetService<ILogger<T>>();

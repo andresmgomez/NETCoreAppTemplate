@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 
+using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Domain.Models.Users;
-using TemplateRESTful.Domain.Models.Account;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Domain.Enums.Account;
 
 namespace TemplateRESTful.Service.Common.Account
@@ -25,7 +26,7 @@ namespace TemplateRESTful.Service.Common.Account
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> RegisterAccountAsync(RegisterUser registerUser)
+        public async Task<IdentityResult> RegisterUserAsync(RegisterUserDto registerUser)
         {
             var userAccount = new ApplicationUser
             {
@@ -33,16 +34,15 @@ namespace TemplateRESTful.Service.Common.Account
                 LastName = registerUser.LastName,
                 UserName = registerUser.Email,
                 Email = registerUser.Email,
-                IsActive = registerUser.AccountStatus
             };
 
             var createAccount = await _userManager.CreateAsync(userAccount, registerUser.Password);
-            await _userManager.AddToRoleAsync(userAccount, UserRoles.AccountUser.ToString());
+            await _userManager.AddToRoleAsync(userAccount, UserRoles.RegularUser.ToString());
 
             return createAccount;
         }
 
-        public async Task<SignInResult> LoginAccountAsync(LoginUser loginUser, bool allowLockout)
+        public async Task<SignInResult> LoginUserAsync(LoginUserDto loginUser, bool allowLockout)
         {
             var authResult = await _signInManager.PasswordSignInAsync(
                 loginUser.Email, loginUser.Password, loginUser.RememberMe, allowLockout
@@ -67,7 +67,7 @@ namespace TemplateRESTful.Service.Common.Account
             return resetToken;
         }
 
-        public async Task<IdentityResult> ConfirmAccountAsync(ApplicationUser userAccount, string confirmationCode)
+        public async Task<IdentityResult> ConfirmUserAsync(ApplicationUser userAccount, string confirmationCode)
         {
             confirmationCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(confirmationCode));
             var confirmAccount = await _userManager.ConfirmEmailAsync(userAccount, confirmationCode);
@@ -75,7 +75,7 @@ namespace TemplateRESTful.Service.Common.Account
             return confirmAccount;
         }
 
-        public async Task<IdentityResult> ResetPasswordAccountAsync(ApplicationUser userAccount, string resetToken, string userPassword)
+        public async Task<IdentityResult> ResetUserPasswordAsync(ApplicationUser userAccount, string resetToken, string userPassword)
         {
             var decodeToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(resetToken));
             var resetPassword = await _userManager.ResetPasswordAsync(userAccount, decodeToken, userPassword);

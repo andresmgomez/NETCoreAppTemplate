@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AccountViewModel>
+﻿@model IEnumerable<AccountUser>
 @using TemplateRESTful.Web.Views.Shared.Components.AddRole
 
 <div class="card">
@@ -17,21 +17,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @foreach (var account in Model)
                 {
                     <tr>
                         <td>
-                            @user.FirstName
+                            @account.FirstName
                         </td>
                         <td>
-                            @user.LastName
+                            @account.LastName
                         </td>
                         <td>
-                            <a>@user.Email</a>
+                            <a>@account.Email</a>
                         </td>
                         <td>
                             <small>
-                                @if (user.EmailConfirmed)
+                                @if (account.EmailConfirmed)
                                 {
                                     <span class="badge-pill badge-success">@localizer["Confirmed"]</span>
                                 }
@@ -42,7 +42,7 @@
                             </small>
                         </td>
                         <td>
-                            @if (user.IsActive)
+                            @if (account.IsActive)
                             {
                                 <span class="badge badge-success">@localizer["Active"]</span>
                             }
@@ -52,7 +52,7 @@
                             }
                         </td>
                         <td>
-                            <span><strong>@string.Join(", ", user.Roles)</strong></span>
+                            <span><strong>@string.Join(", ", account.Roles)</strong></span>
                         </td>
                         <td>
                             <div class="nav-item dropdown no-arrow">
