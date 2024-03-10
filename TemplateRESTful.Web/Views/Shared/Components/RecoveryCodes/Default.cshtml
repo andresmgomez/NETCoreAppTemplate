@@ -1,0 +1,20 @@
+﻿@using TemplateRESTful.Domain.Models.DTOs.User;
+@model RecoveryUserDto
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <i class="zmdi zmdi-alert-circle-o"></i>
+        Copy the following <strong><em>recovery codes</em></strong> and store it in a safe place.
+        You can use it to unlock your account in case you have lost your
+        Authenticator Device or Passcode.
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        @for (var count = 0; count < (Model.RecoveryCodes?.Length ?? 0); count +=2)
+        {
+            <code>@Model.RecoveryCodes![count]</code><text>&nbsp;</text>
+            <code>@Model.RecoveryCodes[count + 1]</code>
+        }
+    </div>
+</div>
