@@ -1,0 +1,218 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@using TemplateRESTful.Domain.Models.Entities;
+@using TemplateRESTful.Web.Areas.Accounts.Models;
+@using TemplateRESTful.Web.Views.Shared.Components.Avatar
+@using TemplateRESTful.Web.Views.Shared.Components.RecoveryCodes;
+@using TemplateRESTful.Web.Views.Shared.Components.RecoveryCount;
+
+@inject UserManager<ApplicationUser> UserManager
+@model UserProfileViewModel
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-xl-3">
+            <div class="card avatar-card">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="avatar-profile mx-auto">
+
+                            <partial name="_UserProfilePicture" model="Model" />
+                            <div class="p-0 profile-image">
+                                <input type="file" asp-for="OnlineProfile.Picture"
+                                        class="form-control" style="display:none;" onchange="document.getElementById('switchPhoto').src = window.URL.createObjectURL(this.files[0])" />
+
+                                <label asp-for="OnlineProfile.Picture" style="top: -20px" class="position-relative">
+                                    <span class="rounded-circle bg-light text-body change-photo-icon">
+                                        <i style="font-size: 1.5rem;" class="ri-camera-fill"></i>
+                                    </span>
+                                </label>
+                                <span asp-validation-for="OnlineProfile.Picture" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <h5 class="text-medium mb-1">
+                            @UserManager.GetUserAsync(User).Result.FirstName
+                            @UserManager.GetUserAsync(User).Result.LastName
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" href="#info" data-toggle="tab" role="tab" aria-selected="true">
+                                Profile Info
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#settings" data-toggle="tab" role="tab" aria-selected="false">
+                                Profile Settings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body p-4">
+                    <div class="tab-content">
+                        <div class="tab-pane" id="settings" role="tabpanel">
+                            <div class="pb-2">
+                                @(await Component.InvokeAsync<RecoveryCountViewComponent>())
+
+                                @if (Model.OnlineUser.PhoneNumber == null)
+                                {
+                                    <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">PhoneNumber Verification</h6>
+                                            <p class="text-muted">
+                                                A Contact number is needed to verify your Identity and can be used to recover
+                                                your account if you forget your email or password credentials.
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0 m-sm-3">
+                                            <a asp-area="Users" asp-controller="Verify" asp-action="VerifyContactNumber" 
+                                                class="btn btn-sm btn-primary text-light">
+                                                Add Contact Number
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                                @if (UserManager.GetTwoFactorEnabledAsync(Model.OnlineUser).Result.Equals(false))
+                                {
+                                    <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Enable 2FA Authentication</h6>
+                                            <p class="text-muted">
+                                                Protect your account from intrusion by using a secure Passcode generator
+                                                or QR Code sent to your personal or work device.
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0 m-sm-3">
+                                            <a asp-area="Users" asp-controller="Verify" asp-action="TwoFactorVerification"
+                                                class="btn btn-sm btn-primary text-light">
+                                                Setup OTP Authentication
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                                @if (UserManager.CountRecoveryCodesAsync(Model.OnlineUser).Result == 0)
+                                {
+                                    <div class="d-flex flex-column flex-sm-row mb-sm-0 mt-2">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Account Recovery Codes</h6>
+                                            <p class="text-muted">
+                                                Restore access to your account in case you have lost your
+                                                Authenticator device by using a list of recovery codes
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0 m-sm-3">
+                                            <a href="#recoveryCodes" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="recoveryCodes"
+                                               class="btn btn-sm btn-primary text-light">
+                                                Show Recovery Codes
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="collapse" id="recoveryCodes">
+                                    <div class="card card-body">
+                                        @(await Component.InvokeAsync<RecoveryCodesViewComponent>())
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>          
+
+                        <div class="tab-pane show active" id="info" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineUser.FirstName" class="form-label"></label>
+                                        <input asp-for="OnlineUser.FirstName" type="text" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.MiddleName" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.MiddleName" type="text" class="form-control" />
+                                        <span asp-validation-for="OnlineProfile.MiddleName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineUser.LastName" class="form-label"></label>
+                                        <input asp-for="OnlineUser.LastName" type="text" class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.EmailAddress" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.EmailAddress" type="email" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                @if (Model.OnlineUser.PhoneNumber != null)
+                                {
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label asp-for="OnlineUser.PhoneNumber" class="form-label"></label>
+                                            <input asp-for="OnlineUser.PhoneNumber" type="text" class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.DayOfBirth" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.DayOfBirth" type="date" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.Occupation" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.Occupation" type="text" class="form-control" />
+                                        <span asp-validation-for="OnlineProfile.Occupation" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.Website" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.Website" type="text" class="form-control" />
+                                        <span asp-validation-for="OnlineProfile.Website" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.Location" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.Location" type="text" class="form-control" />
+                                        <span asp-validation-for="OnlineProfile.Location" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="OnlineProfile.Language" class="form-label"></label>
+                                        <input asp-for="OnlineProfile.Language" type="text" class="form-control" />
+                                        <span asp-validation-for="OnlineProfile.Language" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <a asp-area="Dashboard" asp-controller="Home" asp-action="Index" type="button" class="btn">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

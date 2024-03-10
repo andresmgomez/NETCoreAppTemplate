@@ -1,0 +1,43 @@
+﻿.nav-tabs-custom {
+    border-bottom: 1px solid #e9ebec;
+}
+
+.nav-tabs-custom .nav-item {
+    position: relative;
+}
+
+.nav-tabs-custom .nav-item .nav-link {
+    border: none;
+    font-weight: 500;
+}
+
+.nav-tabs-custom .nav-item .nav-link::after {
+    content: "";
+    background: #405189;
+    height: 1px;
+    position: absolute;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    -webkit-transition: all 250ms ease 0s;
+    transition: all 250ms ease 0s;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+.nav-tabs-custom .nav-item .nav-link.active {
+    color: #405189;
+}
+
+.nav-tabs-custom .nav-item .nav-link.active:after {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.nav-tabs-custom.card-header-tabs {
+    margin-top: -1rem;
+}
+
+.nav-tabs-custom.card-header-tabs .nav-link {
+    padding: 1rem 1rem;
+}

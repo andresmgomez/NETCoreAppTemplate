@@ -1,0 +1,79 @@
+﻿@model ProtectUserDto
+
+@{
+    ViewData["Title"] = "Configure Authenticator App";
+    ViewData["Subtitle"] = "Set two factor authentication by following next step";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="wrapper-form">
+            <span class="form-logo">
+                <i class="zmdi zmdi-chart"></i>
+            </span>
+        </div>
+        <form class="main-form" method="post">
+            <div class="card mt-4">
+                <div class="card-body p-4">
+                    <div class="text-center mt-2">
+                        <h5 class="text-primary">@ViewData["Title"]</h5>
+                    </div>
+                    <div class="p-2 mt-4">
+                        <div class="mb-3">
+                            <div class="message-wrapper">
+                                <p>@ViewData["Subtitle"]:</p>
+                                <ol class="list">
+                                    <li>
+                                        <p>Scan the following QR Code into your Authenticator Device App</p>
+                                        <div id="qrCode" class="text-center" style="height: 250px;"></div>
+                                    </li>
+                                </ol>
+
+                                @if (Model.QRCode == null)
+                                {
+                                     <ol class="list">
+                                        <li>
+                                            <p>
+                                                Download a two-factor authenticator app like Microsoft Authenticator for
+                                                <a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a> and
+                                                <a href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a> or
+                                                Google Authenticator for
+                                                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</a> and
+                                                <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a>.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>Type the following generated token into your Authenticator Device App.</p>
+                                            <br />
+                                            <kbd>@Model.Token</kbd>
+                                        </li>
+                                    </ol>
+                                    
+                                }
+                            </div>
+                        </div>
+                        <div class="mb-2 mt-4">
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <input class="form-control" asp-for="Code" placeholder="Verification Code" autocomplete="off" />
+                                    <span asp-validation-for="Code" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <button class="btn btn-success w-100" type="submit">Verify</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @*<partial name="_ValidationScriptsPartial" />*@
+
+    <script src="~/lib/qrcode/js/qrcode.min.js"></script>
+    <script type="text/javascript">
+        new QRCode(document.getElementById("qrCode"), "@Model.QRCode"
+        );
+    </script>
+}

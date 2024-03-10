@@ -1,19 +1,6 @@
 # TemplateRESTfulAPI
 
-### A Web based application that orchestrates authorization and authentication for online users, by calling separately a Web based API and User interface.
-
-<br>
-
-## App Screenshots (Auth)
-
-|                                          Registration Page                                          |                                          Confirm Registration Page                                          |                                            Login Page                                            |
-| :-------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register-confirm.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/login.gif" /> |
-
-|                                            Reset Password                                             |                                            Change Password                                             |                                            Lockout Page                                            |
-| :---------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/reset-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/change-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/lockout.gif" /> |
-
+A Web based application that orchestrates authorization and authentication for online users, by calling separately a Web based API and User interface.
 <br>
 
 ## System Requirements
@@ -24,8 +11,6 @@
 - [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
 
 > Make sure you **select** <em>x64</em> version of the architecture
-
-<br>
 
 ## Getting Started
 
@@ -144,15 +129,69 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
 ```
 
 Click for [step by step](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-5.0) for instructions, how to generate your <strong><em>ClientId and ClientSecret</em></strong>
+<br>
 
-## Features
+## UI Screenshots (Auth)
 
-- User can register and login an account
-- User can confirm account by email address
-- User can reset their password securely
-- User can login using 2fa with an email token
-- User can update their profile information
-- Guest user can login using social account
+|                                          Registration Page                                          |                                          Confirm Registration Page                                          |                                            Login Page                                            |
+| :-------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register-confirm.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/login.gif" /> |
+
+|                                            Reset Password                                             |                                            Change Password                                             |                                            Lockout Page                                            |
+| :---------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/reset-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/change-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/lockout.gif" /> |
+
+## Project Features
+
+<details>
+  <summary>User interactions with Web UI</summary>
+
+- Guest Users
+
+  - [x] User can login using social account
+
+- Users
+
+  - [x] User can sign up a new account
+  - [x] User can confirm their account by email address
+  - [x] User can change their password securely
+  - [x] User can set their contact number info
+  - [x] User can see quick notification errors
+
+- Admins
+  - [x] Admin can see most recent User registrations
+  </details>
+
+<details>
+  <summary>User interactions with Web API</summary>
+
+`https://localhost:44313/swagger/index.html`
+
+  <summary>Register [POST]</summary>
+
+`https://localhost:44313/api/accounts/register`
+
+  <summary>Confirm Account [GET]</summary>
+
+`https://localhost:44313/api/accounts/confirm-account`
+
+  <summary>Confirm Account [POST]</summary>
+
+`https://localhost:44313/api/accounts/confirm-account`
+
+  <summary>Login [POST]</summary>
+
+`https://localhost:44313/api/accounts/login`
+
+  <summary>Reset Password [GET]</summary>
+
+`https://localhost:44313/api/accounts/reset-password`
+
+  <summary>Reset Password [POST]</summary>
+
+`https://localhost:44313/api/accounts/reset-password`
+
+</details>
 
 ## License
 
