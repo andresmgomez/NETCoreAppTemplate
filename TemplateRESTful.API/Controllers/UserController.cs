@@ -4,13 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Domain.Models.Entities;
-using TemplateRESTful.Domain.Models.Users;
+using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Infrastructure.Server;
-using TemplateRESTful.Service.Common.Account;
 using TemplateRESTful.Service.Common.Identity;
-
+using System.Security.Claims;
 
 namespace TemplateRESTful.API.Controllers
 {
@@ -19,15 +17,16 @@ namespace TemplateRESTful.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager; 
         private readonly IAuthorizeService _authorize;
         private readonly IAuthenticateService _authenticate;
 
         public UserController(
-            UserManager<ApplicationUser> userManager,
-            IAuthorizeService authorize,
-            IAuthenticateService authenticate)
+            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            IAuthorizeService authorize, IAuthenticateService authenticate)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _authorize = authorize;
             _authenticate = authenticate;
         }
@@ -82,6 +81,7 @@ namespace TemplateRESTful.API.Controllers
 
             var result = await _authorize.LoginUserAsync(onlineUser, allowLockout: true);
 
+
             if (result.Succeeded) 
             {
                 userAccount.IsActive = true;
@@ -98,6 +98,35 @@ namespace TemplateRESTful.API.Controllers
                message: $"There was a problem trying to login {onlineUser.Email} email account")
            );
         }
+
+        [HttpGet("logout")]
+        public async Task<IActionResult> LogoutUser([FromQuery] RequestUserDto onlineUser)
+        {
+            var userAccount = await _userManager.FindByEmailAsync(onlineUser.Email);
+
+            if (userAccount == null)
+            {
+                return BadRequest(ServerResponse<string>.FailedMessage(
+                    message: $"An error has occurred. You need to provide a valid account")
+                 );
+            }
+
+            var currentSession = await _userManager.GetUserIdAsync(userAccount);
+
+            if (currentSession != null)
+            {
+                await _signInManager.SignOutAsync();
+
+                return Ok(ServerResponse<string>.SuccessMessage(
+                    message: $"The following email account {onlineUser.Email} logged out successfully")
+                );
+            }
+
+            return Unauthorized(ServerResponse<string>.FailedMessage(
+               message: $"There was a problem trying to logout {onlineUser.Email} email account")
+           );
+        }
+
 
         [HttpGet("confirm-account")]
         public async Task<IActionResult> ConfirmUser([FromQuery] RequestUserDto onlineUser)

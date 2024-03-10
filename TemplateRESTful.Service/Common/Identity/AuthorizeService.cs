@@ -3,40 +3,38 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
+
+using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 
 using TemplateRESTful.Domain.Models.DTOs;
-using TemplateRESTful.Domain.Models.Users;
 using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Domain.Enums.Account;
+using Microsoft.AspNetCore.Http;
 
-namespace TemplateRESTful.Service.Common.Account
+namespace TemplateRESTful.Service.Common.Identity
 {
     public class AuthorizeService : IAuthorizeService
     {
+        private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthorizeService(UserManager<ApplicationUser> userManager,
+        public AuthorizeService(IMapper mapper, UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
+            _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterUserDto registerUser)
         {
-            var userAccount = new ApplicationUser
-            {
-                FirstName = registerUser.FirstName,
-                LastName = registerUser.LastName,
-                UserName = registerUser.Email,
-                Email = registerUser.Email,
-            };
-
+            var userAccount = _mapper.Map<ApplicationUser>(registerUser); 
             var createAccount = await _userManager.CreateAsync(userAccount, registerUser.Password);
+            
             await _userManager.AddToRoleAsync(userAccount, UserRoles.RegularUser.ToString());
 
             return createAccount;

@@ -1,10 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using TemplateRESTful.Domain.Models.DTOs;
+@using TemplateRESTful.Domain.Models.Entities.Profiles;
 @using TemplateRESTful.Web.Views.Shared.Components.Language
 @using TemplateRESTful.Domain.Models.Entities
 @using TemplateRESTful.Web.Resources
 
 @inject IHtmlLocalizer<SharedResource> localizer
 @inject UserManager<ApplicationUser> UserManager
+
+@model IEnumerable<OnlineProfile>
 
 <nav class="main-header navbar navbar-expand navbar-light">
     <ul class="navbar-nav">
@@ -32,12 +36,21 @@
                     &nbsp;
                     <img class="rounded-circle" style="width: 30px;" src="~/img/avatar-user.png" />
                 </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        @localizer["Sign out"]
-                    </a>
-                </div>
+
+                @foreach(var profile in Model)
+                {
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                        <a class="dropdown-item"
+                            asp-area="Accounts" asp-controller="Profiles" asp-action="UpdateProfile" asp-route-profileId="@profile.Id">
+                            <i class="fas fa-user-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            @localizer["My Profile"]
+                        </a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            @localizer["Sign out"]
+                        </a>
+                    </div>
+                }
             </li>
         }
     </ul>

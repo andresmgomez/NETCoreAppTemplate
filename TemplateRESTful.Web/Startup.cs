@@ -12,8 +12,8 @@ using Microsoft.Extensions.Hosting;
 using TemplateRESTful.Web.Extensions;
 using TemplateRESTful.Web.Configuration;
 using TemplateRESTful.Persistence.Extensions;
-using TemplateRESTful.Persistence.Data.Contexts;
 using TemplateRESTful.Service.Extension;
+using TemplateRESTful.Domain.Extension;
 
 namespace TemplateRESTful.Web
 {
@@ -29,9 +29,12 @@ namespace TemplateRESTful.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddPersistencePatterns();
-            services.AddInfrastructureLayer(_configuration);
+            services.AddAssemblyPackages();
+
+            services.AddDomainProfiles();
             services.AddPersistenceLayer(_configuration);
+            services.AddInfrastructureLayer(_configuration);
+            services.AddVerificationLayer(_configuration);
             services.AddServiceLayer(_configuration);
 
             services.AddControllersWithViews();

@@ -5,13 +5,7 @@
 	 <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
      <CopyRefAssembliesToPushDirectory>false</CopyRefAssembliesToPushDirectory>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Areas\Admin\Data\**" />
-    <Content Remove="Areas\Admin\Data\**" />
-    <EmbeddedResource Remove="Areas\Admin\Data\**" />
-    <None Remove="Areas\Admin\Data\**" />
-  </ItemGroup>
-
+	
   <ItemGroup>
 	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
 	  <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0" />
@@ -31,14 +25,12 @@
 
   <ItemGroup>
 	 <ProjectReference Include="..\TemplateRESTful.API\TemplateRESTful.API.csproj" />
-	 <ProjectReference Include="..\TemplateRESTful.Persistence\TemplateRESTful.Persistence.csproj" />
+	 <ProjectReference Include="..\TemplateRESTful.Persistence\TemplateRESTful.Persistence.csproj" /> 
+	 <ProjectReference Include="..\TemplateRESTful.Infrastructure\TemplateRESTful.Infrastructure.csproj" />
 	 <ProjectReference Include="..\TemplateRESTful.Service\TemplateRESTful.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Dashboard\Data\" />
-    <Folder Include="Areas\Dashboard\Models\" />
     <Folder Include="wwwroot\css\fonts\" />
     <Folder Include="wwwroot\lib\fontawesome\css\" />
   </ItemGroup>

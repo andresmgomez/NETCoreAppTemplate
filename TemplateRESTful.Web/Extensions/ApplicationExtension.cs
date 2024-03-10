@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-using TemplateRESTful.Infrastructure.Mapping;
+using TemplateRESTful.Domain.Models.DTOs;
+using TemplateRESTful.Infrastructure.Client.Services;
+using TemplateRESTful.Service.Common.Email;
 
 namespace TemplateRESTful.Web.Extensions
 {
@@ -15,34 +14,22 @@ namespace TemplateRESTful.Web.Extensions
     {
         public static void AddApplicationLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddApplicationContext(configuration);
-            services.AddSocialAuthentication(configuration);
-            services.AddTwoFactorAuthentication(configuration);
+            services.AddApplicationContexts(configuration);
+            services.AddApplicationServices(configuration);
         }
 
-        private static void AddSocialAuthentication(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddAuthentication().AddGoogle("Sign in with Google", options =>
-            {
-                var googleAuth = configuration.GetSection("Authentication:Google");
-                options.ClientId = googleAuth["ClientID"];
-                options.ClientSecret = googleAuth["ClientSecret"];
-                options.SignInScheme = IdentityConstants.ExternalScheme;
-            });
-        }
-
-        private static void AddTwoFactorAuthentication(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddAuthorization(options =>
-                options.AddPolicy("TwoFactorEnabled", actions => actions.RequireClaim("amr", "mfa")));    
-        }
-
-        private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
+        private static void AddApplicationContexts(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDistributedMemoryCache();
             services.TryAddSingleton<HttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
-            services.AddScoped<IMappingViewer, MappingViewer>();
+        }
+
+        private static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IRenderRazorView, RenderRazorView>();
+            services.Configure<EmailSettingsDto>(configuration.GetSection("EmailConfiguration"));
+            services.AddScoped<IEmailService, EmailService>();
         }
     }
 }

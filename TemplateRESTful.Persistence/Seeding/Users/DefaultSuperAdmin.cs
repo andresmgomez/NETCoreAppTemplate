@@ -35,6 +35,7 @@ namespace TemplateRESTful.Persistence.Seeding
                     await userManager.CreateAsync(testingUser, "JMgc0608%!");
                     await userManager.AddToRoleAsync(testingUser, UserRoles.AccountUser.ToString());
                     await userManager.AddToRoleAsync(testingUser, UserRoles.Administrator.ToString());
+                    await userManager.SetTwoFactorEnabledAsync(testingUser, true);
                 }
             }
         }
