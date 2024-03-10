@@ -13,7 +13,7 @@ using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Service.Common.Identity;
 
-namespace TemplateRESTful.Infrastructure.Identity
+namespace TemplateRESTful.Service.Common.Identity
 {
     public class AuthenticateService : IAuthenticateService 
     {

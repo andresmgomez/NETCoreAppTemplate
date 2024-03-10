@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using TemplateRESTful.API.Configuration;
 using TemplateRESTful.API.Extensions;
 using TemplateRESTful.API.Middlewares;
+using TemplateRESTful.Persistence.Extensions;
+using TemplateRESTful.Service.Extension;
 
 namespace TemplateRESTful.API
 {
@@ -21,11 +23,15 @@ namespace TemplateRESTful.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInfrastructureLayer(_configuration);
-            services.AddUserInterface();
-            services.AddEssentialServices();
-            services.AddControllers();
+            services.AddServerLayer();
+            services.AddAssemblyPackages();
 
+            services.AddPersistenceLayer(_configuration);
+            services.AddInfrastructureLayer(_configuration);
+            services.AddServiceLayer(_configuration);
+            
+            services.AddUserInterface();
+            services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

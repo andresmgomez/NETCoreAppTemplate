@@ -12,7 +12,6 @@ namespace TemplateRESTful.Domain.Models.DTOs
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
         public string Email { get; set; }
     }
 }

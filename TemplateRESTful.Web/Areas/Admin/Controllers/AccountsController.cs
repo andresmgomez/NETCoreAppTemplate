@@ -20,7 +20,7 @@ namespace TemplateRESTful.Web.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ViewResult> Index()
         {
             var regularUsers = await _userManager.Users.ToListAsync();
             var accountUsers = new List<AccountUser>();
@@ -37,7 +37,6 @@ namespace TemplateRESTful.Web.Areas.Admin.Controllers
                 accountUser.Roles = await GetAccountRoles(user);
                 accountUsers.Add(accountUser);
             }
-
             return View(accountUsers);
         }
 

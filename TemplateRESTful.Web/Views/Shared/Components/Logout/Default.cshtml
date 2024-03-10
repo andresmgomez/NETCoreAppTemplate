@@ -18,7 +18,7 @@
                 <button class="btn btn-light" type="button" data-dismiss="modal">
                     @localizer["Cancel"]
                 </button>
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="get">
+                <form class="form-inline" asp-area="Users" asp-controller="Auth" asp-action="Logout" method="get">
                     <button type="submit" class="btn btn-primary">
                         @localizer["Logout"]
                     </button>

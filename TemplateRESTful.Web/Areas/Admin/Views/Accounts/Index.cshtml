@@ -75,12 +75,6 @@
         </table>
     </div>
 </div>
+<partial name="_RenderDataTables" />
 
 @(await Component.InvokeAsync<AddRoleViewComponent>());
-
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#userAccounts').DataTable();
-    });
-</script>

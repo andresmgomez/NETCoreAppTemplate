@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 
 using TemplateRESTful.Domain.Notifications.Notyf;
-using TemplateRESTful.Domain.Notifications.Toast;
 using TemplateRESTful.Service.Features.Notifications;
-using TemplateRESTful.Persistence.Data.Actions;
-using TemplateRESTful.Persistence.Data.Containers;
+using TemplateRESTful.Infrastructure.Data.Actions;
+using TemplateRESTful.Infrastructure.Data.Containers;
 using TemplateRESTful.Web.Middlewares;
 
 namespace TemplateRESTful.Web.Extensions

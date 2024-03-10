@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using TemplateRESTful.Infrastructure.Identity;
+using TemplateRESTful.Domain.Models.DTOs;
+using TemplateRESTful.Infrastructure.Client.Services;
 using TemplateRESTful.Persistence.Data.Contexts;
-using TemplateRESTful.Service.Common.Account;
+using TemplateRESTful.Service.Common.Email;
 using TemplateRESTful.Service.Common.Identity;
 
 namespace TemplateRESTful.Service.Extension
@@ -17,14 +18,14 @@ namespace TemplateRESTful.Service.Extension
     {
         public static void AddServiceLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddEntityServices(configuration);
+            services.AddSecurityServices(configuration);
         }
 
-        private static void AddEntityServices(this IServiceCollection services, IConfiguration configuration)
+        private static void AddSecurityServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddTransient<IAccessUserContext, AccessUserContext>();
             services.AddScoped<IAuthorizeService, AuthorizeService>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();
-            services.AddTransient<IAccessUserContext, AccessUserContext>();
         }
     }
 }

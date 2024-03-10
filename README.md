@@ -1,20 +1,10 @@
 # TemplateRESTfulAPI
 
-A template to build .NET applications using a scalable Onion Architecture that connects to multiple SQL databases
+### A Web based application that orchestrates authorization and authentication for online users, by calling separately a Web based API and User interface.
 
-> This project uses .NET Core Identity API and includes a Web UI and a Swagger API interface.
+<br>
 
-## Table of Contents
-
-- [Preview Screenshots](#preview-screenshots)
-- [Template Requirements](#template-requirements)
-- [Getting Started](#getting-started)
-- [Core Services](#core-services)
-- [Current Features](#current-features)
-- [API Usage](#api-usage)
-- [Open License](#open-license)
-
-## Preview Screenshots
+## App Screenshots (Auth)
 
 |                                          Registration Page                                          |                                          Confirm Registration Page                                          |                                            Login Page                                            |
 | :-------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
@@ -24,22 +14,23 @@ A template to build .NET applications using a scalable Onion Architecture that c
 | :---------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
 | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/reset-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/change-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/lockout.gif" /> |
 
-## Template Requirements
+<br>
+
+## System Requirements
 
 - [Visual Studio 2019 or later](https://visualstudio.microsoft.com/downloads/)
-
 - [Microsoft .NET SDK v5.0.400](https://dotnet.microsoft.com/en-us/download/dotnet/5.0)
-
 - [SQL Server 2019 or later](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-
 - [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
 
 > Make sure you **select** <em>x64</em> version of the architecture
 
+<br>
+
 ## Getting Started
 
 <details>
-  <summary>Open the Template in Visual Studio</summary>
+  <summary>Open the Solution in Visual Studio</summary>
 
   <div align="left">
      <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/open-project.png" alt="Open the project in Visual Studio" width="500px" />
@@ -84,10 +75,11 @@ with the correct settings for your Database Server
 3. Run the following <em>command</em> to seed database
 
 ```cmd
-  update-database -context IdentityContext
+  update-database -context IdentityContext -o OutputFolder
+  update-database -context ApplicationDbContext -o OutputFolder
 ```
 
-> For the <em>default project</em>, select the **TemplateRESTful.API**
+> Note: Make sure to select, **TemplateRESTful.Persistence** option to avoid errors.
 
 </details>
 
@@ -112,11 +104,11 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
   </div>
 
 </details>
+<br>
 
 ## Core Services
 
-<details>
-  <summary>Generate a passcode for your App</summary>
+### Generate a passcode for your App
 
 1. Enable [2-step verification](https://support.google.com/accounts/answer/10956730?hl=en) in your gmail settings
 
@@ -134,14 +126,9 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
   },
 ```
 
-[!CAUTION]
-
 > Google has disabled support for third-party apps using just credentials after May 30 2022. This is the way to authorize your app
 
-</details>
-
-<details>
-  <summary>Set Google authentication in NET Core</summary>
+### Set Google authentication in NET Core
 
 1. Create a new **app** in Google Cloud Platform, and install the <strong>External Identity Provider</strong>NuGet package
 
@@ -158,99 +145,15 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
 
 Click for [step by step](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-5.0) for instructions, how to generate your <strong><em>ClientId and ClientSecret</em></strong>
 
-</details>
+## Features
 
-## Current Features
+- User can register and login an account
+- User can confirm account by email address
+- User can reset their password securely
+- User can login using 2fa with an email token
+- User can update their profile information
+- Guest user can login using social account
 
-<details>
-  <summary>Template features for Account users</summary>
-
-- Users
-
-  - 1. Send email for each Confirm and Reset action
-  - 2. Display quick notifications for user actions
-
-- Accounts
-
-  - 1. Register a new account
-  - 2. Confirm account by clicking on a confirmation code
-  - 3. Login account using credentials or gmail login
-  - 4. Reset credentials by generating a reset token
-  - 5. Change account password
-
-- Admin
-  - 1.  Admin user can see login information from regular users
-  - 2.  Require Admin to login using Two Factor Authentication
-
-</details>
-
-## API Usage
-
-How to use **Accounts** API endpoints
-
-<details>
-  <summary>Pre-release Version - v1.0</summary>
-
-`https://localhost:44313/swagger/index.html`
-
-![TemplateRESTfulVersion](./screenshots/index.png)
-
-</details>
-
-<details>
-  <summary>Register [POST]</summary>
-
-`https://localhost:44313/api/accounts/register`
-
-![TemplateRESTfulRegister](./screenshots/register.png)
-
-</details>
-
-<details>
-  <summary>Confirm Account [GET]</summary>
-
-`https://localhost:44313/api/accounts/confirm-account`
-
-![TemplateRESTfulConfirmGET](./screenshots/get-confirm.png)
-
-</details>
-
-<details>
-  <summary>Confirm Account [POST]</summary>
-
-`https://localhost:44313/api/accounts/confirm-account`
-
-![TemplateRESTfulConfirmPOST](./screenshots/post-confirm.png)
-
-</details>
-
-<details>
-  <summary>Login [POST]</summary>
-
-`https://localhost:44313/api/accounts/login`
-
-![TemplateRESTfulLogin](./screenshots/login.png)
-
-</details>
-
-<details>
-  <summary>Reset Password [GET]</summary>
-
-`https://localhost:44313/api/accounts/reset-password`
-
-![TemplateRESTfulResetGET](./screenshots/get-reset.png)
-
-</details>
-
-<details>
-  <summary>Reset Password [POST]</summary>
-
-`https://localhost:44313/api/accounts/reset-password`
-
-![TemplateRESTfulResetGET](./screenshots/post-reset.png)
-
-</details>
-
-## Open License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
