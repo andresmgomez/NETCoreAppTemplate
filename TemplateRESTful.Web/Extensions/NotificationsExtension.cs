@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 
 using TemplateRESTful.Domain.Notifications.Notyf;
-using TemplateRESTful.Service.Features.Notifications;
 using TemplateRESTful.Infrastructure.Data.Actions;
 using TemplateRESTful.Infrastructure.Data.Containers;
+using TemplateRESTful.Service.Client.Features;
 using TemplateRESTful.Web.Middlewares;
 
 namespace TemplateRESTful.Web.Extensions
@@ -29,9 +29,11 @@ namespace TemplateRESTful.Web.Extensions
             services.AddFrameworkServices();
 
             services.AddSingleton<ITempActionsContainer, TemporaryActions>();
+            
             services.AddSingleton<INotificationContainer, NotificationContainer>();
-            services.AddScoped<INotyfNotificationService, NotyfNotificationService>();
+            services.AddScoped<NotificationService, NotificationService>();
             services.AddScoped<NotyfMiddleware>();
+            
             services.AddSingleton(notyfSettings);
         }
 

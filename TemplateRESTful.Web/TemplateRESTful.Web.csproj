@@ -24,9 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	 <ProjectReference Include="..\TemplateRESTful.API\TemplateRESTful.API.csproj" />
-	 <ProjectReference Include="..\TemplateRESTful.Persistence\TemplateRESTful.Persistence.csproj" /> 
-	 <ProjectReference Include="..\TemplateRESTful.Infrastructure\TemplateRESTful.Infrastructure.csproj" />
 	 <ProjectReference Include="..\TemplateRESTful.Service\TemplateRESTful.Service.csproj" />
   </ItemGroup>
 

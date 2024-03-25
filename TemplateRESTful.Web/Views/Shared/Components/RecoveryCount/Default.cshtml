@@ -3,25 +3,38 @@
 
 @if (Model.RecoveryCodesLeft < 2)
 {
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+        <h5>
+            <i class="icon fas fa-ban"></i>
+            Alert
+        </h5>
         <p>
-            <i class="zdmi zdmi-alert-octagon"></i>
             You have only <strong>1 recovery code</strong> left. Be aware you will need to create new ones soon.
         </p>
     </div>
 }
 else if (Model.RecoveryCodesLeft < 4)
 {
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+        <h5>
+            <i class="icon fas fa-exclamation-triangle"></i>
+            Warning
+        </h5>
         <p>
-           <i class="zdmi zmdi-alert-triangle"></i>
-           Warning! You have only <strong>3 recovery codes</strong> left.
+           You have only <strong>3 recovery codes</strong> left.
        </p>
     </div>
 }
 else if (Model.RecoveryCodesLeft < 6)
 {
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+        <h5>
+            <i class="icon fas fa-info"></i>
+            Note
+        </h5>
         <p>
             <i class="zdmi zdmi-info-outline"></i>
             Note! You have only <strong>5 recovery codes</strong> left.

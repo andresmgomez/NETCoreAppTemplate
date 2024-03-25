@@ -19,5 +19,6 @@ namespace TemplateRESTful.Domain.Models.Entities
         public bool IsActive { get; set; } = true;
         public byte[] ProfilePicture { get; set; }
         public List<string> Roles { get; set; } = new List<string>();
+        public DateTimeOffset? LockoutEnd { get; set; }
     }
 }

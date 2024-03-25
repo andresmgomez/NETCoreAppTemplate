@@ -13,7 +13,7 @@
             <th>Email Status</th>
             <th>Account Status</th>
             <th>Account Roles</th>
-            <th>Admin Actions</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -52,9 +52,32 @@
                     }
                 </td>
                 <td>
-                    <span><strong>@string.Join(", ", account.Roles)</strong></span>
+                    <span><p>@string.Join(", ", account.Roles)</p></span>
                 </td>
                 <td>
+                    @if (account.LockoutEnd != null)
+                    {
+                        <form asp-action="OnlineAccess" asp-route-userId="@account.Id" method="post">
+                            <button type="submit" class="btn btn-outline-success w-100">
+                                <span class="d-flex justify-content-center">
+                                    <i class="fas fa-unlock-alt fa-sm fa-fw mt-1 mr-1"></i>
+                                    Unlock
+                                </span>
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="OnlineAccess" asp-route-userId="@account.Id" method="post">
+                            <button type="submit" class="btn btn-outline-danger w-100">
+                                <span class="d-flex justify-content-center">
+                                    <i class="fas fa-lock fa-sm fa-fw mt-1 mr-1"></i>Lock
+                                </span>
+                            </button>
+                        </form>
+                    }
+                </td>
+                @*<td>
                     <div class="nav-item dropdown no-arrow">
                         <a class="nav-link" id="userPermission" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-h"></i>
@@ -68,7 +91,7 @@
                             </a>
                         </div>
                     </div>
-                </td>
+                </td>*@
             </tr>
         }
     </tbody>

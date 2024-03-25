@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-using System.Threading.Tasks;
 using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Domain.Models.Entities;
-using TemplateRESTful.Service.Common.Identity;
+using TemplateRESTful.Service.Client.Interfaces;
 using TemplateRESTful.Web.Controllers;
 
 namespace TemplateRESTful.Web.Areas.Users.Controllers

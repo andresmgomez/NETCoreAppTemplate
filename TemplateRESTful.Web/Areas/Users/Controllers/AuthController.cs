@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,10 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Domain.Models.DTOs;
-using TemplateRESTful.Persistence.Data.Actions;
-using TemplateRESTful.Infrastructure.Server.Requests;
-using TemplateRESTful.Service.Common.Identity;
-using TemplateRESTful.Service.Common.Email;
+using TemplateRESTful.Service.Client.Interfaces;
+using TemplateRESTful.Service.Server.Interfaces;
+using TemplateRESTful.Service.Server.Features;
+using TemplateRESTful.Service.Client.Actions.Commands;
 using TemplateRESTful.Web.Controllers;
 
 namespace TemplateRESTful.Web.Areas.Users.Controllers
@@ -48,17 +50,17 @@ namespace TemplateRESTful.Web.Areas.Users.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserDto registerUser)
         {
+            var existingAccount = await _userManager.FindByEmailAsync(registerUser.Email);
+            
             if (ModelState.IsValid)
             {
-                var existingAccount = await _userManager.FindByEmailAsync(registerUser.Email);
-
                 if (existingAccount == null)
                 {
                     var registerAccount = await _authorizeService.RegisterUserAsync(registerUser);
 
                     if (registerAccount.Succeeded)
                     {
-                        _notificationService.SuccessMessage($"You have successfully created a new Account");
+                        _notificationService.SuccessMessage($"You have successfully created an account");
                         
                         return RedirectToAction(
                             "RegisterConfirmation",
@@ -99,90 +101,69 @@ namespace TemplateRESTful.Web.Areas.Users.Controllers
         public async Task<IActionResult> Login(LoginUserDto loginUser, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            Microsoft.AspNetCore.Identity.SignInResult userRequest;
 
-            if (ModelState.IsValid) 
+            var userAccount = await _userManager.FindByEmailAsync(loginUser.Email);
+
+            if (ModelState.IsValid)
             {
-                var userAccount = await _userManager.FindByEmailAsync(loginUser.Email);
-                var adminAccount = await _userManager.IsInRoleAsync(userAccount, "Administrator");
-
-                if (userAccount != null && adminAccount)
+                if (userAccount != null)
                 {
-                    userAccount.TwoFactorEnabled = true;
-                    userRequest = await _authorizeService.LoginUserAsync(loginUser, allowLockout: false);
+                    var adminAccount = await _userManager.IsInRoleAsync(userAccount, "Administrator");
 
-                    if (userRequest.RequiresTwoFactor)
+                    SignInResult userRequest = await _authorizeService.LoginUserAsync(
+                        loginUser, true);
+
+                    if (userRequest.RequiresTwoFactor && !adminAccount)
                     {
-                        var userAuthCode = await _userManager.GenerateTwoFactorTokenAsync(userAccount, "Email");
+                        var validProvider = await _userManager.GetValidTwoFactorProvidersAsync(userAccount);
 
-                        var emailMessage = new EmailMessage(new string[]
-                            {
-                                loginUser.Email
-                            },
-                            "RestfulAPI - Login Your Account with Two Factor Authentication",
-                            $@"<h4>Hello, {loginUser.Email}</h4>
-                            <p>We have recently detected that you try to login to your account as an administrator.</p>
-                            <p>Copy and pase the following authorization code to continue the login process.</p>
-                            <h4>{userAuthCode}</h4>
-                            <p>Otherwise, ignore this email report it to your network administrator.</p>"
-                        );
+                        if (validProvider.Contains(_userManager.Options.Tokens.AuthenticatorTokenProvider))
+                        {
+                            return RedirectToAction("SecureLogin", "Secure", new { email = userAccount.Email });
+                        }
+                    }
+                    else if (userRequest.RequiresTwoFactor && adminAccount)
+                    {
+                        var accessCode = await _userManager.GenerateTwoFactorTokenAsync(userAccount, "Email");
 
+                        var emailMessage = EmailConfirmation.SetEmailContent(userAccount, accessCode);
                         await _emailService.SendEmailAsync(emailMessage);
 
-                        return RedirectToAction("SecureLogin", "Secure");
-                    }
-                }
-
-                else if (userAccount != null) 
-                {
-                    userRequest = await _authorizeService.LoginUserAsync(loginUser, allowLockout: true);
-
-                    if (userRequest.Succeeded) 
-                    {
-                        userAccount.IsActive = true;
-
-                        await _mediator.Send(new UserActionCommand()
-                        {
-                            userId = userAccount.Id,
-                            Action = "Login Success"
-                        });
-
-                        return LocalRedirect(returnUrl);
+                        return RedirectToAction("SecureLogin", "Secure", new { email = userAccount.Email });
                     }
                     else if (userRequest.IsLockedOut)
                     {
-                        return RedirectToAction("LockoutUser", "Confirm");     
-                    } 
+                        return RedirectToAction("LockoutUser", "Confirm");
+                    }
+                    else if (userRequest.Succeeded)
+                    {
+                        userAccount.IsActive = true;
+                        await _userManager.UpdateAsync(userAccount);
+
+                        return LocalRedirect(returnUrl);
+                    }
                     else
                     {
-                        ApplicationUser userVisitor = await _signInManager.UserManager.FindByEmailAsync(loginUser.Email);
-
-                        int failedAttempts = await _signInManager.UserManager.GetAccessFailedCountAsync(userVisitor);
+                        int failedAttempts = await _signInManager.UserManager.GetAccessFailedCountAsync(userAccount);
                         int totalAttempts = _signInManager.Options.Lockout.MaxFailedAccessAttempts;
                         string alertMessage = $"Login has failed. Remaining attempts {failedAttempts} of {totalAttempts}";
 
                         ModelState.AddModelError(string.Empty, alertMessage);
 
-                        await _mediator.Send(new UserActionCommand()
+                        await _mediator.Send(new TrackLoginCommand()
                         {
                             userId = userAccount.Id,
                             Action = "Login Failed"
-                        });
-
-                        _notificationService.ErrorMessage(
-                            "Invalid Login attempt! Check your email or password and try again"
-                        );
-
-                        return View(loginUser);
+                        });   
                     }
+                }
 
-                }
-                else
-                {
-                    _notificationService.ErrorMessage(
-                        "Unable to find valid user account! Check your credentials and try again"
-                    );
-                }
+                _notificationService.ErrorMessage(
+                    "Invalid Login attempt! Check your email or password and try again"
+                );
+                
+                return View(loginUser);
+
             }
 
             return View();

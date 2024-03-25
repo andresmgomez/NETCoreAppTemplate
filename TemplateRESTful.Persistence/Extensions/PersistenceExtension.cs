@@ -9,13 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using TemplateRESTful.Persistence.Data;
 using TemplateRESTful.Persistence.Storage.DbContexts;
 using TemplateRESTful.Persistence.Storage;
-using TemplateRESTful.Persistence.Operations.Generic;
-using TemplateRESTful.Persistence.Operations.Audit;
-using TemplateRESTful.Persistence.Operations.Profiles;
-using AutoMapper;
+using TemplateRESTful.Persistence.Data.Interfaces;
+using TemplateRESTful.Persistence.Data.Generic;
 
 namespace TemplateRESTful.Persistence.Extensions
 {
@@ -51,9 +48,6 @@ namespace TemplateRESTful.Persistence.Extensions
         private static void AddPersistenceRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
-            services.AddTransient<IOnlineProfileRepository, OnlineProfileRepository>();
-            
-            services.AddTransient<ILogActionRepository, LogActionRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }

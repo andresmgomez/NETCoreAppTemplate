@@ -151,7 +151,7 @@ namespace TemplateRESTful.Persistence.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("TemplateRESTful.Domain.Identity.Users.ApplicationUser", b =>
+            modelBuilder.Entity("TemplateRESTful.Domain.Models.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -202,9 +202,6 @@ namespace TemplateRESTful.Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -239,7 +236,7 @@ namespace TemplateRESTful.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TemplateRESTful.Domain.Identity.Users.ApplicationUser", null)
+                    b.HasOne("TemplateRESTful.Domain.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -248,7 +245,7 @@ namespace TemplateRESTful.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TemplateRESTful.Domain.Identity.Users.ApplicationUser", null)
+                    b.HasOne("TemplateRESTful.Domain.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -263,7 +260,7 @@ namespace TemplateRESTful.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TemplateRESTful.Domain.Identity.Users.ApplicationUser", null)
+                    b.HasOne("TemplateRESTful.Domain.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -272,7 +269,7 @@ namespace TemplateRESTful.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TemplateRESTful.Domain.Identity.Users.ApplicationUser", null)
+                    b.HasOne("TemplateRESTful.Domain.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

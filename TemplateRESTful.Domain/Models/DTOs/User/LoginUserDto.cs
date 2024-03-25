@@ -22,6 +22,6 @@ namespace TemplateRESTful.Domain.Models.DTOs
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; } = true;
+        public bool RememberMe { get; set; }
     }
 }

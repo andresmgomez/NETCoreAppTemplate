@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using TemplateRESTful.Domain.Models.DTOs;
-using TemplateRESTful.Infrastructure.Client.Services;
-using TemplateRESTful.Service.Common.Email;
+using TemplateRESTful.Service.Server.Features;
+using TemplateRESTful.Service.Server.Interfaces;
 
 namespace TemplateRESTful.Web.Extensions
 {
@@ -27,7 +27,6 @@ namespace TemplateRESTful.Web.Extensions
 
         private static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IRenderRazorView, RenderRazorView>();
             services.Configure<EmailSettingsDto>(configuration.GetSection("EmailConfiguration"));
             services.AddScoped<IEmailService, EmailService>();
         }

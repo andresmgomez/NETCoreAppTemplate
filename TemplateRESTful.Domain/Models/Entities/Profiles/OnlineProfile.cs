@@ -5,15 +5,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
-using TemplateRESTful.Domain.Models.Features;
-
-namespace TemplateRESTful.Domain.Models.Entities.Profiles
+namespace TemplateRESTful.Domain.Models.Entities
 {
-    public class OnlineProfile : AuditEntity
+    public class OnlineProfile
     {
-        [NotMapped]
-        public byte Picture { get; set; }
+        [Key]
+        public string Id { get; set; }
+        [JsonIgnore]
+        public byte[] Picture { get; set; }
+
         [NotMapped]
         public string FirstName { get; set; }
 
@@ -24,7 +26,6 @@ namespace TemplateRESTful.Domain.Models.Entities.Profiles
         public string LastName { get; set; }
         [NotMapped]
         public string PhoneNumber { get; set; }
-        [NotMapped]
         public string EmailAddress { get; set; }
         public DateTime DayOfBirth { get; set; }
 

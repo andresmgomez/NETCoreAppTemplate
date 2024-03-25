@@ -17,34 +17,62 @@ namespace TemplateRESTful.Web.Areas.Users.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public SecureController(
-            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public SecureController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
+        public string ReturnUrl { get; set; }
+
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult SecureLogin()
+        public async Task<IActionResult> SecureLogin(string email)
         {
+            var userAccount = await _userManager.FindByEmailAsync(email);
+
+            if (userAccount != null)
+            {
+                var adminAccount = new AdminUserDto
+                {
+                    EmailAccount = userAccount.Email
+                };
+
+                return View(adminAccount);
+            }
+
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SecureLogin(AuthSettingsDto authSettings, string returnUrl = null)
+        public async Task<IActionResult> SecureLogin(AdminUserDto secureUser, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
             if (ModelState.IsValid)
             {
                 var authorizedUser = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+                var adminAccount = await _userManager.IsInRoleAsync(authorizedUser, "Administrator");
 
-                if (authorizedUser != null)
+                if (authorizedUser != null && !adminAccount)
+                {
+                    var verificationCode = secureUser.AccessCode.Replace(" ", string.Empty);
+
+                    var secureLogin = await _signInManager.TwoFactorAuthenticatorSignInAsync(
+                        verificationCode, secureUser.KeepSession, secureUser.RememberBrowser);
+
+                    if (secureLogin.Succeeded)
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+
+                    _notificationService.ErrorMessage("The authenticator code provided is invalid");
+                }
+                if (authorizedUser != null && adminAccount)
                 {
                     var secureLogin = await _signInManager.TwoFactorSignInAsync("Email",
-                        authSettings.TwoFactorAuthentication, authSettings.KeepSession, authSettings.RememberBrowser
+                       secureUser.AccessCode, secureUser.KeepSession, secureUser.RememberBrowser
                     );
 
                     if (secureLogin.Succeeded)
@@ -52,15 +80,11 @@ namespace TemplateRESTful.Web.Areas.Users.Controllers
                         return LocalRedirect(returnUrl);
                     }
 
-                    ModelState.AddModelError(string.Empty, "You need to pass a valid Authenticator Code");
-                }
-                else
-                {
-                    _notificationService.ErrorMessage("There was a problem trying to verify your Identity");
+                    _notificationService.ErrorMessage("The authorization code provided is invalid");
                 }
             }
 
-            return View(authSettings);
+            return View(secureUser);
         }
 
         [HttpPost]

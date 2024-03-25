@@ -1,59 +1,74 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
 using TemplateRESTful.Domain.Models.Entities;
+using TemplateRESTful.Service.Client.Interfaces;
+using TemplateRESTful.Web.Controllers;
 
 namespace TemplateRESTful.Web.Areas.Accounts.Controllers
 {
     [Area("Accounts")]
-    public class OnlineController : Controller
+    public class OnlineController : RootController<OnlineController>
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOnlineUserService _onlineManager;
 
-        public OnlineController(UserManager<ApplicationUser> userManager)
+        public OnlineController(
+            UserManager<ApplicationUser> userManager, IOnlineUserService onlineManager)
         {
             _userManager = userManager;
+            _onlineManager = onlineManager;
         }
 
         public IEnumerable<ApplicationUser> UserAccounts { get; set; }
 
         [HttpGet]
-        public async Task<PartialViewResult> OnlineAccounts()
+        public async Task<PartialViewResult> Index()
         {
             UserAccounts = await _userManager.Users.ToListAsync();
-
-            var accountUsers = new List<AccountUser>();
-
-            foreach (var identityUser in UserAccounts)
-            {
-                var accountUser = new AccountUser();
-                accountUser.FirstName = identityUser.FirstName;
-                accountUser.LastName = identityUser.LastName;
-                accountUser.Email = identityUser.Email;
-                accountUser.EmailConfirmed = identityUser.EmailConfirmed;
-                accountUser.IsActive = identityUser.IsActive;
-                accountUser.Roles = await GetAccountRoles(identityUser);
-
-                accountUsers.Add(accountUser);
-            }
+            var onlineUsers = await _onlineManager.GetOnlineUsers(UserAccounts);
 
             return new PartialViewResult
             {
                 ViewName = "_ListOnlineAccounts",
                 ViewData = new ViewDataDictionary<IList<AccountUser>>(
-                    ViewData, accountUsers),
+                    ViewData, onlineUsers),
             };
         }
 
-        private async Task<List<string>> GetAccountRoles(ApplicationUser user)
+        [HttpPost]
+        public async Task<IActionResult> OnlineAccess(string userId)
         {
-            return new List<string>(await _userManager.GetRolesAsync(user));
+            ApplicationUser userAccount = await _userManager.Users.FirstOrDefaultAsync(
+                user => user.Id == userId);
+
+            if (userAccount != null)
+            {
+                if (userAccount.LockoutEnd != null || userAccount.LockoutEnd > DateTime.Now)
+                {
+                    userAccount.LockoutEnd = null;
+                    await _userManager.UpdateAsync(userAccount);
+
+                    _notificationService.SuccessMessage(
+                        $"Online account {userAccount.UserName} access has been granted");
+                }
+                else
+                {
+                    userAccount.LockoutEnd = DateTime.Now.AddMonths(3);
+                    await _userManager.UpdateAsync(userAccount);
+
+                    _notificationService.ErrorMessage($"" +
+                        $"Online account {userAccount.UserName} access has been revoked");
+                }
+            }
+            
+            return RedirectToAction("Index");
         }
     }
 }

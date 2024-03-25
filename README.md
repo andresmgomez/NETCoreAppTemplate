@@ -1,6 +1,6 @@
 # TemplateRESTfulAPI
 
-A Web based application that orchestrates authorization and authentication for online users, by calling separately a Web based API and User interface.
+A starting web template that manages registrations and logins for multiple users. It includes different mechanisms such as using SSO login for Google accounts, and OTP authentication using an Authenticator app device, such as Microsoft or Google Auth.
 <br>
 
 ## System Requirements
@@ -60,8 +60,8 @@ with the correct settings for your Database Server
 3. Run the following <em>command</em> to seed database
 
 ```cmd
-  update-database -context IdentityContext -o OutputFolder
-  update-database -context ApplicationDbContext -o OutputFolder
+  update-database -context IdentityContext
+  update-database -context ApplicationDbContext
 ```
 
 > Note: Make sure to select, **TemplateRESTful.Persistence** option to avoid errors.
@@ -111,8 +111,6 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
   },
 ```
 
-> Google has disabled support for third-party apps using just credentials after May 30 2022. This is the way to authorize your app
-
 ### Set Google authentication in NET Core
 
 1. Create a new **app** in Google Cloud Platform, and install the <strong>External Identity Provider</strong>NuGet package
@@ -131,67 +129,65 @@ Select the <em>TemplateRESTful.API</em> or <em>TemplateRESTful.Web</em>, then cl
 Click for [step by step](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-5.0) for instructions, how to generate your <strong><em>ClientId and ClientSecret</em></strong>
 <br>
 
-## UI Screenshots (Auth)
+## Current Features
 
-|                                          Registration Page                                          |                                          Confirm Registration Page                                          |                                            Login Page                                            |
-| :-------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/register-confirm.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/login.gif" /> |
+### 1. Users:
 
-|                                            Reset Password                                             |                                            Change Password                                             |                                            Lockout Page                                            |
-| :---------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/reset-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/change-pass.gif" /> | <img src="https://github.com/andresmgomez/NETCoreAppTemplate/blob/main/screenshots/lockout.gif" /> |
+- **1. User registrations** - Multiple users can register an account at the same or different times.
+- **2. User confirmations** - Each user can login and confirm their account by clicking a secure link.
+- **3. User profile** - Each user can access, and change personal information on their profile.
+- **4. User credentials** - Each user can securely reset their password if they forgot their passkey.
+- **5. User SSO login** - Some users can login to the application using their Google account.
+- **6. User enable 2FA** - Each user can enable two factor authentication by scanning a QR code.
+- **7. User 2FA Access** - Some users can login using a OTP access code provided by Authenticator.
+- **8. User recovery access** - Each user can access recovery tokens when unable to login using 2FA.
 
-## Project Features
+### 2. Admins:
 
-<details>
-  <summary>User interactions with Web UI</summary>
+- **1. Admin authentication** - Admin user can login to application by using Email generated access code.
+- **1. User registrations** - Admin user can see User registration information, such as active status
+- **2. User login attempts** - Admin can see User failed login attempts logs, such as Id and login time.
+- **3. User privileges** - Admin can grant or deny access to User accounts that violated login policy.
 
-- Guest Users
+<br>
 
-  - [x] User can login using social account
+## API Endpoints
 
-- Users
+### 1. Users
 
-  - [x] User can sign up a new account
-  - [x] User can confirm their account by email address
-  - [x] User can change their password securely
-  - [x] User can set their contact number info
-  - [x] User can see quick notification errors
+| API                                                           | Description                            | HTTPS(GET) | HTTPS(POST) |
+| ------------------------------------------------------------- | -------------------------------------- | ---------- | ----------- |
+| [RegisterUser](https://localhost:44313/api/users/register)    | Public user can sign-up for an account | No         | Yes         |
+| [LoginUser](https://localhost:44313/api/users/login)          | Account user can make a login request  | No         | Yes         |
+| [LogoutUser](https://localhost:44313/users/logout)            | Public user can end current session    | Yes        | No          |
+| [ResetPassword](https://localhost:44313/users/reset-password) | Public user can change their password  | Yes        | Yes         |
 
-- Admins
-  - [x] Admin can see most recent User registrations
-  </details>
+### 2. Accounts
 
-<details>
-  <summary>User interactions with Web API</summary>
+| API                                                                    | Description                                   | HTTPS(GET) | HTTPS(POST) |
+| ---------------------------------------------------------------------- | --------------------------------------------- | ---------- | ----------- |
+| [ConfirmAccount](https://localhost:44313/api/accounts/confirm-account) | Account user can confirm their account        | Yes        | Yes         |
+| [VerifyAccount](https://localhost:44313/api/accounts/verify-account)   | Account user can use contact number to verify | No         | Yes         |
 
-`https://localhost:44313/swagger/index.html`
+### 2. Profiles
 
-  <summary>Register [POST]</summary>
+| API                                                                            | Description                                    | HTTPS(GET) | HTTPS(POST) |
+| ------------------------------------------------------------------------------ | ---------------------------------------------- | ---------- | ----------- |
+| [ProfileAccounts](https://localhost:44313/api/accounts/profiles)               | Admin user can see a list of account profiles  | Yes        | No          |
+| [ProfileAccount](https://localhost:44313/api/accounts/profiles/single-profile) | Admin user can see account profile information | Yes        | No          |
 
-`https://localhost:44313/api/accounts/register`
+### 2. Admins
 
-  <summary>Confirm Account [GET]</summary>
+| API                                                                         | Description                                       | HTTPS(GET) | HTTPS(POST) |
+| --------------------------------------------------------------------------- | ------------------------------------------------- | ---------- | ----------- |
+| [AuthorizeAdmins](https://localhost:44313/api/accounts/admins/send-auth)    | Admin user can request authorization access code  | No         | Yes         |
+| [AuthenticateAdmins](https://localhost:44313/api/accounts/admins/send-auth) | Admin user can validate authorization access code | No         | Yes         |
 
-`https://localhost:44313/api/accounts/confirm-account`
+<br>
 
-  <summary>Confirm Account [POST]</summary>
+## Acknowledgements
 
-`https://localhost:44313/api/accounts/confirm-account`
-
-  <summary>Login [POST]</summary>
-
-`https://localhost:44313/api/accounts/login`
-
-  <summary>Reset Password [GET]</summary>
-
-`https://localhost:44313/api/accounts/reset-password`
-
-  <summary>Reset Password [POST]</summary>
-
-`https://localhost:44313/api/accounts/reset-password`
-
-</details>
+This project has been built using [AdminLTE](https://adminlte.io/docs/3.0) UI template, to launch a quick demo, and contains some custom styles.
 
 ## License
 

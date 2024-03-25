@@ -55,11 +55,11 @@
                         <div class="mb-2 mt-4">
                             <div class="mb-3">
                                 <div class="form-group">
-                                    <input class="form-control" asp-for="Code" placeholder="Verification Code" autocomplete="off" />
-                                    <span asp-validation-for="Code" class="text-danger"></span>
+                                    <input class="form-control is-invalid" asp-for="Code" placeholder="Verification Code" autocomplete="off" />
+                                    <span asp-validation-for="Code" class="error invalid-feedback"></span>
                                 </div>
                             </div>
-                            <button class="btn btn-success w-100" type="submit">Verify</button>
+                            <button class="btn btn-primary w-100" type="submit">Verify</button>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,9 @@
 </div>
 
 @section Scripts {
-    @*<partial name="_ValidationScriptsPartial" />*@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
     <script src="~/lib/qrcode/js/qrcode.min.js"></script>
     <script type="text/javascript">

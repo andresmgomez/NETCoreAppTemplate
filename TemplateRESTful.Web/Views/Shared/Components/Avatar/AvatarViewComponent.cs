@@ -1,18 +1,22 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-using TemplateRESTful.Domain.Models.Entities.Profiles;
-using TemplateRESTful.Persistence.Operations.Profiles;
+using TemplateRESTful.Domain.Models.Entities;
+using TemplateRESTful.Service.Client.Interfaces;
 
 namespace TemplateRESTful.Web.Views.Shared.Components.Avatar
 {
     public class AvatarViewComponent : ViewComponent
     {
-        private readonly IOnlineProfileManager _profileManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOnlineProfileService _profileManager;
 
-        public AvatarViewComponent(IOnlineProfileManager profileManager)
+        public AvatarViewComponent(
+            UserManager<ApplicationUser> userManager, IOnlineProfileService profileManager)
         {
+            _userManager = userManager;
             _profileManager = profileManager;
         }   
 
@@ -20,13 +24,14 @@ namespace TemplateRESTful.Web.Views.Shared.Components.Avatar
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var useProfile = await _profileManager.Entities.FirstOrDefaultAsync();
+            var onlineUser = await _userManager.Users.FirstOrDefaultAsync();
+            var userProfile = await _profileManager.Entities.FirstOrDefaultAsync(p => p.EmailAddress == onlineUser.Email);
 
-            if (useProfile != null)
+            if (userProfile != null)
             {
                 var onlineProfile = new OnlineProfile
                 {
-                    Picture = useProfile.Picture
+                    Picture = userProfile.Picture
                 };
 
                 return View("Default", onlineProfile);
