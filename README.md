@@ -145,13 +145,11 @@ Click for [step by step](https://learn.microsoft.com/en-us/aspnet/core/security/
 ### 2. Admins:
 
 - **1. Admin authentication** - Admin user can login to application by using Email generated access code.
-- **1. User registrations** - Admin user can see User registration information, such as active status
-- **2. User login attempts** - Admin can see User failed login attempts logs, such as Id and login time.
-- **3. User privileges** - Admin can grant or deny access to User accounts that violated login policy.
+- **2. User registrations** - Admin user can see User registration information, such as active status
+- **3. User login attempts** - Admin can see User failed login attempts logs, such as Id and login time.
+- **4. User privileges** - Admin can grant or deny access to User accounts that violated login policy.
 
-<br>
-
-## API Endpoints
+## Current Endpoints
 
 ### 1. Users
 
@@ -169,14 +167,14 @@ Click for [step by step](https://learn.microsoft.com/en-us/aspnet/core/security/
 | [ConfirmAccount](https://localhost:44313/api/accounts/confirm-account) | Account user can confirm their account        | Yes        | Yes         |
 | [VerifyAccount](https://localhost:44313/api/accounts/verify-account)   | Account user can use contact number to verify | No         | Yes         |
 
-### 2. Profiles
+### 3. Profiles
 
 | API                                                                            | Description                                    | HTTPS(GET) | HTTPS(POST) |
 | ------------------------------------------------------------------------------ | ---------------------------------------------- | ---------- | ----------- |
 | [ProfileAccounts](https://localhost:44313/api/accounts/profiles)               | Admin user can see a list of account profiles  | Yes        | No          |
 | [ProfileAccount](https://localhost:44313/api/accounts/profiles/single-profile) | Admin user can see account profile information | Yes        | No          |
 
-### 2. Admins
+### 4. Admins
 
 | API                                                                         | Description                                       | HTTPS(GET) | HTTPS(POST) |
 | --------------------------------------------------------------------------- | ------------------------------------------------- | ---------- | ----------- |

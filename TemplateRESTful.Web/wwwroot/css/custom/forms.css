@@ -3,7 +3,11 @@
 .wrapper-form {
     border-radius: 10px;
     overflow: hidden;
-    padding: 55px 55px 37px 55px;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.wrapper-form > span {
+    margin-bottom: 1.5rem;
 }
 
 .form-links {
@@ -15,7 +19,7 @@
     display: -ms-flexbox;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin: 3.5rem 0;
+    margin: 2.5rem 0;
 }
 
 .link {
@@ -32,7 +36,7 @@
 }
 
 .form-logo {
-    font-size: 60px;
+    font-size: 50px;
     color: rgb(50, 50, 125);
     display: -webkit-box;
     display: -webkit-flex;
@@ -41,8 +45,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background-color: #fff;
     margin: 0 auto;
@@ -62,9 +66,8 @@
     display: block;
     position: relative;
     font-family: "Poppins";
-    font-size: 13px;
+    font-size: 12px;
     font-weight: lighter !important;
-    color: #212529;
     line-height: 1.2;
     padding-left: 26px;
     cursor: pointer;
@@ -82,10 +85,10 @@
     align-items: center;
     left: 0;
     top: 50%;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     font-family: Material-Design-Icons;
-    font-size: 13px;
+    font-size: 14px;
     color: transparent;
     border-radius: 2px;
     border: 1px solid #212529;

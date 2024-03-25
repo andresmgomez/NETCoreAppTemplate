@@ -72,7 +72,7 @@ namespace TemplateRESTful.Web.Areas.Users.Controllers
                     await _userManager.SetTwoFactorEnabledAsync(userAccount, true);
 
                     _notificationService.SuccessMessage(
-                        "Two factor authentication has been enabled");
+                        "You have successfully enabled 2FA in your account");
 
                     return LocalRedirect(returnUrl);
                 }

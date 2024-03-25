@@ -3,6 +3,10 @@
     font-size: 1.01rem;
 }
 
+.text-danger {
+    font-size: 0.8rem !important;
+}
+
 .text-muted {
     color: #878a99 !important;
     font-size: 0.9rem;

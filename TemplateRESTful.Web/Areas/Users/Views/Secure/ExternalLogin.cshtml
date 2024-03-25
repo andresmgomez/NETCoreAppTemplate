@@ -10,7 +10,6 @@
             <span class="form-logo">
                 <i class="zmdi zmdi-chart"></i>
             </span>
-        </div>
             <div class="card mt-4">
                 <div class="card-body p-4">
                     <div class="text-center mt-2">
@@ -22,9 +21,10 @@
                         <div class="mb-3">
                             <div class="message-wrapper">
                                 <p class="text-muted">
-                                    We have detected the following email is associated to your <strong>@ViewData["Provider"]</strong> 
-                                    account. If this is what you intended to do, go ahead.
+                                    We have detected the following email address is associated with your 
+                                    <strong>@ViewData["Provider"]</strong> account.
                                 </p>
+                                <p class="text-muted">If your account does not login right away, try a second time.</p>
                             </div>
                             <div class="form-group">
                                 <input class="form-control is-invalid" asp-for="EmailAddress" placeholder="Email Account" readonly />
