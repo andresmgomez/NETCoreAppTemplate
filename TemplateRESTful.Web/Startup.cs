@@ -9,11 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using TemplateRESTful.Web.Extensions;
-using TemplateRESTful.Web.Configuration;
 using TemplateRESTful.Persistence.Extensions;
 using TemplateRESTful.Service.Extension;
-using TemplateRESTful.Domain.Extension;
+using TemplateRESTful.Web.Extensions;
 
 namespace TemplateRESTful.Web
 {
@@ -31,7 +29,6 @@ namespace TemplateRESTful.Web
         {
             services.AddAssemblyPackages();
 
-            services.AddDomainProfiles();
             services.AddPersistenceLayer(_configuration);
             services.AddInfrastructureLayer(_configuration);
             services.AddVerificationLayer(_configuration);
@@ -65,8 +62,6 @@ namespace TemplateRESTful.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            app.UseLanguageResource();
 
             app.UseRouting();
             app.UseAuthentication();

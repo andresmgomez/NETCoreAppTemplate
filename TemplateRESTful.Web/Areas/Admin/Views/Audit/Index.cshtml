@@ -1,0 +1,61 @@
+﻿@using TemplateRESTful.Domain.Models.DTOs;
+@model List<AuditLoginDto>
+
+<div class="card">
+    <div class="card-body table-responsive">
+        <table class="table table-striped" id="auditAccounts">
+            <thead>
+                <tr>
+                    <th>Account Id</th>
+                    <th>Access Date</th>
+                    <th>User Action</th>
+                    <th>Server Time</th>
+                    <th>Client Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var account in Model)
+                {
+                    <tr>
+                        <td>
+                            @account.UserId
+                        </td>
+                        <td>
+                            @account.DateTime.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @account.Action
+                        </td>
+                        <td>
+                            <small class="badge badge-success">
+                                <i class="far fa-clock"></i>
+                                UTC Time
+                            </small>
+                            @account.DateTime.ToString("h:mm:ss tt")
+                        </td>
+                        <td>
+                            @{
+                                DateTime runtimeDateUtc = DateTime.SpecifyKind(account.DateTime, DateTimeKind.Utc);
+                                DateTime localTime = runtimeDateUtc.ToLocalTime();
+                            }
+                            <small class="badge badge-warning">
+                                <i class="far fa-clock"></i>
+                                Local Time
+                            </small>
+                            @localTime.ToString("h:mm:ss tt")
+
+                        </td>
+                    </tr>
+                }
+        </table>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#auditAccounts').DataTable();
+        });
+    </script>
+}

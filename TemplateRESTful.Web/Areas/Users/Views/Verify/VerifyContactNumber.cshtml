@@ -31,12 +31,12 @@
                     <div class="p-2 mt-4">
                         <div class="mb-3">
                             <div class="form-group">
-                                <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Phone Number" />
-                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                <input asp-for="PhoneNumber" type="tel" class="form-control is-invalid" placeholder="Contact Number" />
+                                <span asp-validation-for="PhoneNumber" class="error invalid-feedback"></span>
                             </div>
                         </div>
                         <div class="mb-2 mt-4">
-                            <button class="btn btn-success w-100" type="submit">Save Contact Number</button>
+                            <button class="btn btn-primary w-100" type="submit">Save Contact Number</button>
                         </div>
                     </div>
                 </div>

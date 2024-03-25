@@ -1,7 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using TemplateRESTful.Web.Resources
-@inject IHtmlLocalizer<SharedResource> localizer;
-
+﻿
 <aside class="main-sidebar sidebar-menu" style="height: 100vh;">
     <div class="sidebar-menu--size-box">
         <a href="/" class="sidebar-logo sidebar-logo--color-light">
@@ -17,22 +14,41 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @if (User.IsInRole("Administrator"))
                 {
-                    <li class="nav-header text-light">@localizer["Users"]
-                        <span class="badge badge-danger">@localizer["New"]</span>
-                    </li>
+                    <li class="nav-header text-light">Users</li>
                     <li class="nav-item has-treeview">
-                        <a asp-area="Admin" class="nav-link">
+                        <a asp-area="Accounts" class="nav-link">
                             <i class="nav-icon fas fa-users text-light"></i>
                             <p class="text-light">
-                                @localizer["User Accounts"]
+                                Online Users
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item ml-3">
-                                <a asp-area="Identity" asp-page="/Account/DisplayInfo" class="nav-link text-light">
+                                <a asp-area="Accounts" asp-controller="Online" asp-action="Index" class="nav-link text-light">
                                     -
-                                    <p>@localizer["Online Accounts"]</p>
+                                    <p>Registered Users</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-header text-light">
+                        Audits
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a asp-area="Admin" class="nav-link">
+                            <i class="nav-icon fas fa-user-shield text-light"></i>
+                            <p class="text-light">
+                                Online Audits
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item ml-3">
+                                <a asp-area="Admin" asp-controller="Audit" asp-action="Index" class="nav-link text-light">
+                                    -
+                                    <p>Login Attempts</p>
+                                    <span class="badge badge-danger">New</span>
                                 </a>
                             </li>
                         </ul>

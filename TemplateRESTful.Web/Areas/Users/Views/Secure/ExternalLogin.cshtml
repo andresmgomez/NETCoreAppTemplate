@@ -22,17 +22,16 @@
                         <div class="mb-3">
                             <div class="message-wrapper">
                                 <p class="text-muted">
-                                    We have detected the following email
-                                    is associated to your <strong>@ViewData["Provider"]</strong> account.
-                                    If this is what you intended to do, go ahead.
+                                    We have detected the following email is associated to your <strong>@ViewData["Provider"]</strong> 
+                                    account. If this is what you intended to do, go ahead.
                                 </p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" asp-for="EmailAddress" placeholder="Email Account" readonly />
-                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                <input class="form-control is-invalid" asp-for="EmailAddress" placeholder="Email Account" readonly />
+                                <span asp-validation-for="EmailAddress" class="error invalid-feedback"></span>
                             </div>
                             <div class="mb-2 mt-4">
-                                <button class="btn btn-success w-100" type="submit">Login</button>
+                                <button class="btn btn-primary w-100" type="submit">Login</button>
                             </div>
                         </div>
                     </form>

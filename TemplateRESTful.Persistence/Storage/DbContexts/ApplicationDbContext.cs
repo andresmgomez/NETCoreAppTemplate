@@ -7,13 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-using TemplateRESTful.Domain.Models.Entities.Profiles;
-using TemplateRESTful.Domain.Models.Features;
+using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Persistence.Data.Contexts;
 
 namespace TemplateRESTful.Persistence.Storage.DbContexts
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : AuditLoginContext, IApplicationDbContext
     {
         private readonly IAccessUserContext _userContext;
         public ApplicationDbContext(
@@ -23,29 +22,13 @@ namespace TemplateRESTful.Persistence.Storage.DbContexts
             _userContext = userContext;
         }
 
-        public IDbConnection Connection => Database.GetDbConnection();
-        public bool HasChanges => ChangeTracker.HasChanges();
+        public IDbConnection OpenConnection => Database.GetDbConnection();
+        public bool HasBeenModified => ChangeTracker.HasChanges();
         public DbSet<OnlineProfile> OnlineProfiles { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-            foreach (var entry in ChangeTracker.Entries<AuditEntity>().ToList())
-            {
-                switch(entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedOn = DateTime.UtcNow;
-                        entry.Entity.CreatedBy = _userContext.UserName;
-                        break;
-
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedOn = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = _userContext.UserName;
-                        break;
-                }
-            }
-
-            return await base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(_userContext.UserId);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

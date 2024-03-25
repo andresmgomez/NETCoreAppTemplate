@@ -28,3 +28,12 @@ Version v1.9.0 (6 March 2024)
 - Feature: Generate recovery codes for beta testing
 - Tweak: User account can login using Authenticator app
 - Fix: Render dynamic identity info using mvc pattern
+
+Version v1.10.4 (March 23 2024)
+
+- Tweak: Add UI form validation classes from template
+- Feature: Block or grant access to Web application
+- Fix: Restore audit of User account login attempts
+- Tweak: Report audit table users local and UTC time
+- Feature: Add API service that authorizes Admin user
+- Feature: Add API service that authenticates Admin user

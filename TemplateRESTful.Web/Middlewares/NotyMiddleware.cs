@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+
 using TemplateRESTful.Domain.Notifications.Notyf;
-using TemplateRESTful.Infrastructure.Constants;
+using TemplateRESTful.Infrastructure.Client.Constants;
 using TemplateRESTful.Infrastructure.Utilities;
-using TemplateRESTful.Service.Features.Notifications;
+using TemplateRESTful.Service.Client.Features;
 using TemplateRESTful.Web.Shared.ViewModels;
 
 namespace TemplateRESTful.Web.Middlewares
@@ -14,11 +14,11 @@ namespace TemplateRESTful.Web.Middlewares
     internal class NotyfMiddleware : IMiddleware
     {
         public NotyfSettings _notyfSettings { get; }
-        private readonly INotyfNotificationService _notyfNotification;
+        private readonly NotificationService _notyfNotification;
         private const string AccessControlExposeHeaders = "Access-Control-Expose-Headers";
 
         public NotyfMiddleware(
-            INotyfNotificationService notyfNotification, NotyfSettings notyfSettings)
+            NotificationService notyfNotification, NotyfSettings notyfSettings)
         {
             _notyfNotification = notyfNotification;
             _notyfSettings = notyfSettings;
@@ -39,15 +39,15 @@ namespace TemplateRESTful.Web.Middlewares
                 var notifications = new NotyfNotificationVM
                 {
                     Configuration = _notyfSettings.ToJson(),
-                    NotyfNotifications = _notyfNotification.ReadNotifications()
+                    Notifications = _notyfNotification.ReadNotifications()
                 };
 
-                if (notifications.NotyfNotifications != null && notifications.NotyfNotifications.Any())
+                if (notifications.Notifications != null && notifications.Notifications.Any())
                 {
                     var accessControlExposeHeaders = $"{GetControlExposeHeaders(httpContext.Response.Headers)}";
                     httpContext.Response.Headers.Add(AccessControlExposeHeaders, accessControlExposeHeaders);
 
-                    var jsonNotifications = notifications.NotyfNotifications.ToJson();
+                    var jsonNotifications = notifications.Notifications.ToJson();
                     httpContext.Response.Headers.Add(FeatureConstants.NotyfResponseHeaderKey, WebUtility.UrlEncode(jsonNotifications));
                 }
             }

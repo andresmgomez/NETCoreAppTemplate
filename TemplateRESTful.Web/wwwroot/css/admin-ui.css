@@ -2410,8 +2410,8 @@ pre {
 
 .form-control:disabled,
 .form-control[readonly] {
-    background-color: #e9ecef;
-    opacity: 1;
+    background-color: #fff !important;
+    opacity: 1 !important;
 }
 
 select.form-control:focus::-ms-value {

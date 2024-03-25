@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using TemplateRESTful.Domain.Models.DTOs;
 using TemplateRESTful.Domain.Models.Entities;
-using TemplateRESTful.Service.Common.Identity;
-using TemplateRESTful.Service.Common.Users;
+using TemplateRESTful.Service.Client.Interfaces;
 using TemplateRESTful.Web.Controllers;
 
 namespace TemplateRESTful.Web.Areas.Users.Controllers

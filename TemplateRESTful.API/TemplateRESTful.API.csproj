@@ -18,7 +18,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TemplateRESTful.Persistence\TemplateRESTful.Persistence.csproj" />
 		<ProjectReference Include="..\TemplateRESTful.Service\TemplateRESTful.Service.csproj" />
 	</ItemGroup>
 

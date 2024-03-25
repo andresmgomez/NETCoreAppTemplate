@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using TemplateRESTful.Domain.Models.Entities;
 using TemplateRESTful.Domain.Models.DTOs;
-using TemplateRESTful.Domain.Models.Entities.Profiles;
+using TemplateRESTful.Domain.Models.Entities;
 
 namespace TemplateRESTful.Web.Areas.Accounts.Models
 {

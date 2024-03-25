@@ -127,12 +127,10 @@
                 var _this = this;
 
                 this._fixHeight();
-
                 this._fixScrollHeight();
 
                 $(window).resize(function () {
                     _this._fixHeight();
-
                     _this._fixScrollHeight();
                 });
                 $(window).scroll(function () {

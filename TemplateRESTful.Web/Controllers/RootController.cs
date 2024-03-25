@@ -4,24 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using TemplateRESTful.Infrastructure.Client.Services;
-using TemplateRESTful.Service.Features.Notifications;
+using TemplateRESTful.Service.Client.Features;
 
 namespace TemplateRESTful.Web.Controllers
 {
     public abstract class RootController<T> : Controller
     {
-        private IRenderRazorView _viewerInstance;
-        private INotyfNotificationService notificationInstance;
+        private NotificationService notificationInstance;
         private ILogger<T> _loggerInstance;
         private IMediator _mediatorInstance;
         private IMapper _mapperInstance;
-
-        protected IRenderRazorView _viewer => _viewerInstance ??=
-            HttpContext.RequestServices.GetService<IRenderRazorView>();
-        protected INotyfNotificationService _notificationService =>
+        protected NotificationService _notificationService =>
           notificationInstance ??= HttpContext.RequestServices.
-          GetService<INotyfNotificationService>();
+          GetService<NotificationService>();
 
         protected ILogger<T> _logger =>
             _loggerInstance ??= HttpContext.RequestServices.GetService<ILogger<T>>();

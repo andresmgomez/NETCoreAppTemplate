@@ -16,14 +16,14 @@ namespace TemplateRESTful.Persistence.Data.Contexts
             {
                 UserId = contextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
-            if (contextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name) != null)
+            else if (contextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name) != null)
             {
                 UserName = contextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name).Value;
             }
         }
-        public string UserId { get; }
+        public string UserId { get; } = null;
 
-        public string UserName { get; }
+        public string UserName { get; } = null;
 
     }
 }
