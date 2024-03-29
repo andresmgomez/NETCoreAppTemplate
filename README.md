@@ -3,6 +3,8 @@
 A starting web template that manages registrations and logins for multiple users. It includes different mechanisms such as using SSO login for Google accounts, and OTP authentication using an Authenticator app device, such as Microsoft or Google Auth.
 <br>
 
+https://github.com/andresmgomez/UserManagementDemo/assets/88804430/c0f5696a-24a1-476c-82c8-1711ecae9ab5
+
 ## System Requirements
 
 - [Visual Studio 2019 or later](https://visualstudio.microsoft.com/downloads/)
